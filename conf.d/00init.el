@@ -1,0 +1,29 @@
+;; langage settings
+(setenv "LANG" "C")
+(setenv "LC_ALL" "C")
+(setenv "LC_TIME" "C")
+
+;; japanese-env
+(set-language-environment "Japanese")
+(set-default-coding-systems 'utf-8)
+
+;; global-settings
+(setq-default indent-tabs-mode nil)
+(setq-default truncate-lines t)
+(setq inhibit-startup-message t)
+(setq next-line-add-newlines nil)
+(setq scalable-fonts-allowed t)
+(setq default-major-mode 'lisp-interaction-mode)
+(setq isearch-lazy-highlight-initial-delay .2)
+(setq debug-on-error t)
+(line-number-mode t)
+(global-font-lock-mode t)
+(setq global-auto-revert-mode t)
+(setq eval-expression-print-length nil)
+
+;; Show-paren-mode
+(show-paren-mode t)
+(set-face-background 'show-paren-match-face "#008000")
+
+;; ask when exit
+(setq confirm-kill-emacs 'yes-or-no-p)

@@ -1,0 +1,10 @@
+(source gnu)
+(source melpa)
+
+;(depends-on "dash")
+;(depends-on "ddskk" :git "https://github.com/hsaito/ddskk")
+;(depends-on "flycheck")
+(depends-on "helm")
+(depends-on "init-loader")
+(depends-on "magit")
+;(depends-on "yasnippet")
