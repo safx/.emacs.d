@@ -4,6 +4,7 @@
   '(
     haskell-mode
     helm
+    iedit
     magit
     markdown-mode
     ))
