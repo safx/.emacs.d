@@ -8,6 +8,11 @@
                             (require 'company)
                             (require 'helm-go-package)
 
+                            (setq-default) 
+                            (setq tab-width 2) 
+                            (setq standard-indent 2) 
+                            (setq indent-tabs-mode nil)
+
                             (setq company-tooltip-limit 20)
                             (setq company-minimum-prefix-length 0)
                             (setq company-idle-delay .3)
