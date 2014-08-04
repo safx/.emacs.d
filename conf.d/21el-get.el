@@ -17,6 +17,10 @@
 ;; define personal el-get packages
 (setq el-get-sources
       '(
+        (:name neotree
+               :type github
+               :pkgname "jaypei/emacs-neotree"
+        )
         (:name gh-ddskk
                :type github
                :pkgname "hsaito/ddskk"
@@ -33,4 +37,5 @@
 (el-get 'sync 
   '(
     gh-ddskk
+    neotree
     ))
