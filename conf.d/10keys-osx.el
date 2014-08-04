@@ -1,3 +1,5 @@
+(when (eq system-type 'darwin)
+
 ;;; https://gist.github.com/railwaycat/3498096
 (global-set-key [(hyper a)] 'mark-whole-buffer)
 (global-set-key [(hyper v)] 'yank)
@@ -11,9 +13,9 @@
   (interactive)
   (if (eq mac-option-modifier nil)
       (progn
-	(setq mac-option-modifier 'meta)
-	(setq mac-command-modifier 'hyper)
-	)
+        (setq mac-option-modifier 'meta)
+        (setq mac-command-modifier 'hyper)
+        )
     (progn 
       (setq mac-option-modifier nil)
       (setq mac-command-modifier 'meta)
@@ -21,3 +23,7 @@
     )
   )
 (mac-switch-meta)
+
+)
+
+  
