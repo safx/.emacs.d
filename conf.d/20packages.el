@@ -1,5 +1,3 @@
-(require 'cl)
-
 (defvar installing-package-list
   '(
     company
@@ -20,6 +18,9 @@
     ))
 
 
+
+(require 'cl)
+
 (defun my:package-dependencies (package)
   "Returns a list of dependencies from a given PACKAGE."
   (let* ((pkg-desc (assq package package-alist))
@@ -28,25 +29,32 @@
 
 (defun my:package-all-dependencies (list)
   "Returns a list of dependencies from a given LIST of packages."
-  (cl-union '(init-loader)
+  (cl-union '(init-loader pkg-info epl)
             (cl-union list
                       (cl-mapcan 'my:package-dependencies list))))
 
+(defun my:require (package)
+  (dolist (pkg (my:package-dependencies package))
+    (my:package-install-if-needed pkg)
+  (require package)))
 
 
 
 (let ((not-installed-packages (loop for x in installing-package-list
-                           when (not (package-installed-p x))
-                           collect x))
+                                    when (not (package-installed-p x))
+                                    collect x))
       (not-listed-packages (cl-nset-difference package-activated-list
-                                              (my:package-all-dependencies installing-package-list))))
-  
+                                               (my:package-all-dependencies installing-package-list))))
   (when not-installed-packages
     (package-refresh-contents)
     (dolist (pkg not-installed-packages)
       (package-install pkg)))
 
-;  (when not-listed-packages
-;    (dolist (pkg not-listed-packages)
-;      (package-uninstall pkg nil)))
+  (when not-listed-packages
+    (my:require 'pkg-info)
+    (dolist (pkg not-listed-packages)
+      (let* ((pkgs (format "%s" pkg))
+             (ver (pkg-info-package-version pkg))
+             (vers (pkg-info-format-version ver)))
+        (package-delete pkgs vers))))
   )
