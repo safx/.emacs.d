@@ -2,6 +2,7 @@
   '(
     company
     company-go
+    expand-region
     flymake
     flymake-jshint
     go-mode
