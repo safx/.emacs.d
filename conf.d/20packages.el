@@ -5,6 +5,7 @@
     expand-region
     flymake
     flymake-jshint
+    git-gutter
     go-mode
     go-eldoc
     haskell-mode
