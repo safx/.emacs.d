@@ -15,6 +15,7 @@
     magit
     markdown-mode
     swift-mode
+    volatile-highlights
     ))
 
 
