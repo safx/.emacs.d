@@ -1,6 +1,6 @@
 (global-set-key (kbd "C-x C-g") 'helm-ls-git-ls)
 (global-set-key (kbd "C-x C-r") 'helm-for-files)
-(global-set-key (kbd "M-x") 'helm-M-x)
+;(global-set-key (kbd "M-x") 'helm-M-x)
 
 (add-hook
  'helm-after-initialize-hook
@@ -13,5 +13,4 @@
    (define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
    (define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
    (define-key helm-generic-files-map (kbd "TAB") 'helm-execute-persistent-action)
-   (define-key helm-M-x-map (kbd "TAB") 'helm-execute-persistent-action)
 ))
