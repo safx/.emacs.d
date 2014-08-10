@@ -1,5 +1,6 @@
 (defvar installing-package-list
   '(
+    anzu
     company
     company-go
     exec-path-from-shell

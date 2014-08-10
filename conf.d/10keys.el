@@ -24,6 +24,6 @@
                      (kill-new (buffer-substring (point) (line-end-position))))))
 
 ;; define-keys
-(define-key esc-map "&" 'query-replace-regexp)
+;(define-key esc-map "&" 'query-replace-regexp)
 (define-key global-map "\C-x\C-h" 'help-command)
 (define-key minibuffer-local-completion-map "\C-w" 'backward-kill-word)
