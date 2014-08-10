@@ -2,6 +2,7 @@
   '(
     company
     company-go
+    exec-path-from-shell
     expand-region
     flymake
     flymake-jshint
