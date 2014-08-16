@@ -1,6 +1,7 @@
 (defvar installing-package-list
   '(
     anzu
+    auto-complete
     exec-path-from-shell
     expand-region
     flymake

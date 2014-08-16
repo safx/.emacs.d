@@ -1,6 +1,9 @@
 *~
 *.elc
 
+ac-comphist.dat
+
+ac-dict/
 elpa/
 el-get/
 auto-save-list/
