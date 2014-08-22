@@ -5,6 +5,7 @@
 (global-set-key "\M-h" 'backward-kill-word)
 (global-set-key (kbd "M-g") 'goto-line)
 (global-set-key "\M-o" 'dabbrev-expand)
+(global-set-key (kbd "C-o") 'other-window)
 ;(global-set-key [(super ?o)] 'ispell-complete-word)
 ;(global-set-key "\M-@" 'lisp-complete-symbol)
 ;(global-set-key "\C-xq" 'menu-bar-mode)
