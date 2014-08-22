@@ -17,6 +17,7 @@
     js2-mode
     magit
     markdown-mode
+    projectile
     swift-mode
     volatile-highlights
     ))

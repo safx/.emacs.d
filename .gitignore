@@ -2,6 +2,7 @@
 *.elc
 
 ac-comphist.dat
+projectile-bookmarks.eld
 
 ac-dict/
 elpa/
