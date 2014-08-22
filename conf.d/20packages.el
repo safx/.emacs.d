@@ -9,6 +9,7 @@
     git-gutter
     go-mode
     go-eldoc
+    guide-key
     haskell-mode
     helm
     helm-ls-git
