@@ -13,6 +13,7 @@
     helm
     helm-ls-git
     helm-go-package
+    helm-projectile
     iedit
     js2-mode
     magit
