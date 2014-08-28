@@ -20,6 +20,7 @@
     magit
     markdown-mode
     projectile
+    rust-mode
     swift-mode
     volatile-highlights
     ))
