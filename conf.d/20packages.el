@@ -2,6 +2,7 @@
   '(
     anzu
     auto-complete
+    coffee-mode
     exec-path-from-shell
     expand-region
     flymake
@@ -17,6 +18,7 @@
     helm-projectile
     iedit
     js2-mode
+    livescript-mode
     magit
     markdown-mode
     projectile
