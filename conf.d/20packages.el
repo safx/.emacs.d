@@ -23,6 +23,7 @@
     markdown-mode
     projectile
     rust-mode
+    stylus-mode
     swift-mode
     volatile-highlights
     ))
