@@ -1,6 +1,6 @@
 (defun my:package-install-if-needed (pkg)
   (when (not (package-installed-p pkg))
-    (when my:package-refresh-contents
+    (when (not (boundp 'my:package-refresh-contents))
       (setq my:package-refresh-contents t)
       (package-refresh-contents))
     (package-install pkg)))
