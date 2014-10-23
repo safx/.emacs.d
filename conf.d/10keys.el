@@ -3,6 +3,8 @@
 (global-set-key "\C-z" 'call-last-kbd-macro)
 (global-set-key "\C-h" 'backward-delete-char-untabify)
 (global-set-key "\M-h" 'backward-kill-word)
+(global-set-key (kbd "M-SPC") 'cycle-spacing)
+(global-set-key [(control return)] 'cua-rectangle-mark-mode)
 (global-set-key (kbd "M-g") 'goto-line)
 (global-set-key "\M-o" 'dabbrev-expand)
 (global-set-key (kbd "C-o") 'other-window)
