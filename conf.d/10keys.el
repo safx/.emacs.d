@@ -1,4 +1,4 @@
-(global-set-key "(J\(B" "\\")
+(global-set-key "¥" "\\")
 (global-set-key "\C-_" 'undo)
 (global-set-key "\C-z" 'call-last-kbd-macro)
 (global-set-key "\C-h" 'backward-delete-char-untabify)
