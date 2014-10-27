@@ -23,6 +23,8 @@
 (global-font-lock-mode t)
 (setq global-auto-revert-mode t)
 (setq eval-expression-print-length nil)
+(transient-mark-mode 0)
+(delete-selection-mode 0)
 
 ;; Show-paren-mode
 (show-paren-mode t)
