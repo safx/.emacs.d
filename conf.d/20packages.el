@@ -35,7 +35,7 @@
 (defun my:package-dependencies (package)
   "Returns a list of dependencies from a given PACKAGE."
   (let* ((pkg-desc (assq package package-alist))
-         (reqs (and pkg-desc (package-desc-reqs (cdr pkg-desc)))))
+         (reqs (and pkg-desc (package-desc-reqs (cadr pkg-desc)))))
     (mapcar 'car reqs)))
 
 (defun my:package-all-dependencies (list)
