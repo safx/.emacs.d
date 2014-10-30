@@ -44,6 +44,12 @@
             (cl-union list
                       (cl-mapcan 'my:package-dependencies list))))
 
+(defun my:package-remove (package)
+  "Remove a given PACKAGE."
+  (let* ((pkg-desc (assq package package-alist))
+         (desc (and pkg-desc (cadr pkg-desc))))
+    (package-delete desc)))
+
 (defun my:require (package)
   (dolist (pkg (my:package-dependencies package))
     (my:package-install-if-needed pkg)
@@ -64,8 +70,5 @@
   (when not-listed-packages
     (my:require 'pkg-info)
     (dolist (pkg not-listed-packages)
-      (let* ((pkgs (format "%s" pkg))
-             (ver (pkg-info-package-version pkg))
-             (vers (pkg-info-format-version ver)))
-        (package-delete pkgs vers))))
+      (my:package-remove pkg)))
   )
