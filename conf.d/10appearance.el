@@ -1,4 +1,4 @@
-
+(set-fringe-mode '(1 . 1))
 (set-cursor-color "light green")
 (setq initial-frame-alist
         (append '(
