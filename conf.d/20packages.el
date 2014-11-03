@@ -1,6 +1,7 @@
 (defvar installing-package-list
   '(
     anzu
+    aggressive-indent
     auto-complete
     coffee-mode
     exec-path-from-shell
