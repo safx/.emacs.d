@@ -11,13 +11,12 @@
 (setq coding-system-for-read 'utf-8)
 
 ;; global-settings
+(setq-default major-mode 'lisp-interaction-mode)
 (setq-default indent-tabs-mode nil)
 (setq-default truncate-lines t)
 (setq inhibit-startup-message t)
 (setq next-line-add-newlines nil)
 (setq scalable-fonts-allowed t)
-(setq default-major-mode 'lisp-interaction-mode)
-(setq isearch-lazy-highlight-initial-delay .2)
 (setq debug-on-error t)
 (line-number-mode t)
 (global-font-lock-mode t)
