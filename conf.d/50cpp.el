@@ -5,7 +5,7 @@
              (setq cc-other-file-alist (append cc-other-file-alist '(("\\.m\\'" (".h")) ("\\.mm\\'" (".h")))))
 
              (c-set-style "cc-mode")
-             (local-set-key  (kbd "C-c C-h") 'ff-find-other-file)
+             (global-set-key  (kbd "C-c C-h") 'ff-find-other-file)
              (setq-default indent-tabs-mode nil)
              (setq c-basic-offset 4)
              (setq-default tab-width 4)))
