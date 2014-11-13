@@ -3,8 +3,10 @@
 
 ac-comphist.dat
 projectile-bookmarks.eld
+projectile.cache
 
 ac-dict/
 elpa/
 el-get/
 auto-save-list/
+server/
