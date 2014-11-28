@@ -7,8 +7,8 @@
 (set-language-environment "Japanese")
 
 (prefer-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(setq coding-system-for-read 'utf-8)
+;(set-default-coding-systems 'utf-8)
+;(setq coding-system-for-read 'utf-8)
 
 ;; global-settings
 (setq-default major-mode 'lisp-interaction-mode)

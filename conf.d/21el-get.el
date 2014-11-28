@@ -2,14 +2,14 @@
 (require 'el-get)
 (setq el-get-dir "~/.emacs.d/el-get")
 
-;; Avoiding build error on installing some package in Windows 
+;; Avoiding build error on installing some package in Windows
 ;; http://misohena.jp/blog/2014-03-01-el-get-error-async-install-on-windows.html
-(when (eq system-type 'windows-nt) 
+(when (eq system-type 'windows-nt)
   (setq my-el-get-shell-file-name
         (or (and (eq system-type 'windows-nt)
                  (executable-find "cmdproxy.exe"))
             shell-file-name))
-  
+
   (defadvice el-get-start-process-list (around my-el-get-start-process-list--modify-shell-file-name activate)
     (let ((shell-file-name my-el-get-shell-file-name))
       ad-do-it)))
@@ -23,7 +23,7 @@
         )
         (:name gh-ddskk
                :type github
-               :pkgname "hsaito/ddskk"
+               :pkgname "safx/ddskk"
 	       :autoloads nil
 	       :info "doc/skk.info"
 	       :features ("skk-setup")
@@ -34,7 +34,7 @@
 
 
 ;; install personal packages
-(el-get 'sync 
+(el-get 'sync
   '(
     gh-ddskk
     neotree
