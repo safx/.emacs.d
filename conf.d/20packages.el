@@ -22,6 +22,7 @@
     livescript-mode
     magit
     markdown-mode
+    paredit
     projectile
     rust-mode
     stylus-mode
