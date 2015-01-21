@@ -42,9 +42,12 @@
 
 (defun my:package-all-dependencies (list)
   "Returns a list of dependencies from a given LIST of packages."
-  (cl-union '(init-loader pkg-info epl)
-            (cl-union list
-                      (cl-mapcan 'my:package-dependencies list))))
+  (cl-union
+   '(init-loader
+     ;pkg-info
+     epl)
+   (cl-union list
+             (cl-mapcan 'my:package-dependencies list))))
 
 (defun my:package-remove (package)
   "Remove a given PACKAGE."
@@ -69,8 +72,8 @@
     (dolist (pkg not-installed-packages)
       (package-install pkg)))
 
-  (when not-listed-packages
-    (my:require 'pkg-info)
-    (dolist (pkg not-listed-packages)
-      (my:package-remove pkg)))
+;  (when not-listed-packages
+;    (my:require 'pkg-info)
+;    (dolist (pkg not-listed-packages)
+;      (my:package-remove pkg)))
   )
