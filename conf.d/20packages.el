@@ -10,12 +10,12 @@
     flymake-jshint
     git-gutter
     go-mode
-    go-eldoc
+    ;go-eldoc
     guide-key
     haskell-mode
     helm
     helm-ls-git
-    helm-go-package
+    ;helm-go-package
     helm-projectile
     iedit
     js2-mode

@@ -4,16 +4,15 @@
 ;; golang
 (add-hook 'go-mode-hook
           '(lambda ()
-             (require 'go-eldoc)
+             ;;(require 'go-eldoc)
              ;;(require 'flymake-go)
-             (require 'helm-go-package)
+             ;;(require 'helm-go-package)
 
-             (setq-default) 
-             (setq tab-width 2) 
-             (setq standard-indent 2) 
+             (setq-default)
+             (setq tab-width 2)
+             (setq standard-indent 2)
              (setq indent-tabs-mode nil)
-             
+
              (go-eldoc-setup)
              ;;(flymake-mode t)
              ))
-
