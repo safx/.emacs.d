@@ -13,7 +13,3 @@
 
 (require 'dabbrev-highlight)
 (set-face-background dabbrev-highlight-face "#0000c0")
-
-
-(require 'narrow-or-widen-dwim)
-(global-set-key (kbd "M-N") 'narrow-or-widen-dwim)
