@@ -28,6 +28,7 @@
     stylus-mode
     swift-mode
     volatile-highlights
+    yaml-mode
     ))
 
 
