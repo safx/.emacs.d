@@ -4,6 +4,7 @@
     aggressive-indent
     auto-complete
     coffee-mode
+    ddskk
     exec-path-from-shell
     expand-region
     flymake
