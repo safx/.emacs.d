@@ -2,8 +2,9 @@
   '(
     anzu
     aggressive-indent
-    auto-complete
-    coffee-mode
+    ;coffee-mode
+    company
+    company-jedi
     ddskk
     exec-path-from-shell
     expand-region
