@@ -27,6 +27,7 @@
     paredit
     projectile
     rust-mode
+    scala-mode2
     stylus-mode
     swift-mode
     volatile-highlights
