@@ -2,6 +2,7 @@
   '(
     anzu
     aggressive-indent
+    bind-key
     ;coffee-mode
     company
     company-jedi
