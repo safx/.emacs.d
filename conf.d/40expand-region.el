@@ -1,3 +1,3 @@
 (require 'expand-region)
 
-(global-set-key (kbd "C-=") 'er/expand-region)
+(bind-key "H-r" 'er/expand-region)
