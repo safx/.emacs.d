@@ -29,7 +29,7 @@
     projectile
     rust-mode
     scala-mode2
-    stylus-mode
+    scss-mode
     swift-mode
     volatile-highlights
     yaml-mode
