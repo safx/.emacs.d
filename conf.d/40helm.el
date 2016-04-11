@@ -1,5 +1,6 @@
 (global-set-key (kbd "C-x C-g") 'helm-ls-git-ls)
 (global-set-key (kbd "C-x C-r") 'helm-for-files)
+(global-set-key (kbd "H-f") 'helm-do-grep-ag)
 ;(global-set-key (kbd "M-x") 'helm-M-x)
 
 (add-hook
