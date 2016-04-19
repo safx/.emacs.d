@@ -1,19 +1,17 @@
-;(setenv "NODE_PATH" "/usr/local/share/npm/lib/node_modules")
+(require 'web-mode)
+
+;; (setenv "NODE_PATH" "/usr/local/share/npm/lib/node_modules")
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
 (setq exec-path (append exec-path '("/usr/local/share/npm/bin")))
 
-
-;;; js2-mode
-(autoload 'js2-mode "js2-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-
-
-;;; flymake-jshint
-(add-hook 'js2-mode-hook '(lambda ()
-              (require 'flymake-jshint)
-              (flymake-jshint-load)
-              ;(color-identifiers-mode)
-              ))
-
-;(flycheck-add-mode 'javascript-eslint 'js2-jsx-mode)
-(add-hook 'js2-jsx-mode-hook 'flycheck-mode)
+;; web-mode
+(add-to-list 'auto-mode-alist '("\\.js$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (equal web-mode-content-type "javascript")
+              (web-mode-set-content-type "jsx")
+              (require 'flycheck)
+              (flycheck-add-mode 'javascript-eslint 'web-mode)
+              (flycheck-mode t)
+              )))

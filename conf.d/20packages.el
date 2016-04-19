@@ -9,6 +9,7 @@
     ddskk
     exec-path-from-shell
     expand-region
+    flycheck
     flymake
     flymake-jshint
     git-gutter
@@ -32,6 +33,7 @@
     scss-mode
     swift-mode
     volatile-highlights
+    web-mode
     yaml-mode
     ))
 
