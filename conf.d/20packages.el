@@ -28,7 +28,7 @@
     markdown-mode
     paredit
     projectile
-    rust-mode
+    ;rust-mode
     scala-mode2
     scss-mode
     swift-mode
