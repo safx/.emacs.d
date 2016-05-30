@@ -1,4 +1,5 @@
 (bind-key "¥" "\\")
+(bind-key "C-M-g" 'top-level)
 (bind-key "C-_" 'undo)
 (bind-key "C-z" 'call-last-kbd-macro)
 (bind-key "C-h" 'backward-delete-char-untabify)
