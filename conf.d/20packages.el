@@ -18,6 +18,7 @@
     guide-key
     haskell-mode
     helm
+    helm-git-grep
     helm-ls-git
     ;helm-go-package
     helm-projectile
