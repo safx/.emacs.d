@@ -30,9 +30,9 @@
     paredit
     projectile
     ;rust-mode
-    scala-mode2
+    ;scala-mode2
     scss-mode
-    swift-mode
+    ;swift-mode
     volatile-highlights
     web-mode
     yaml-mode
