@@ -5,7 +5,7 @@
                   (foreground-color . "#ffff90") (background-color . "#303020")
                   (mouse-color . "white")
                   (cursor-color . "light green")
-                  (tool-bar-lines . 0) (menu-bar-lines . 0) (vertical-scroll-bars . right)
+                  (tool-bar-lines . 0) (menu-bar-lines . 0)
+                  ;(inhibit-double-buffering . t)
                   (width . 83) (height . 63)
                   (left . 486) (top . 0))))
-

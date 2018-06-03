@@ -20,3 +20,11 @@
         ("-cdac$" . 1.3)))
 
 (setq frame-inherited-parameters '(font tool-bar-lines))
+
+(setq initial-frame-alist
+      (append initial-frame-alist
+              '((ns-appearance . dark)
+                (ns-transparent-titlebar . t)
+                )))
+
+;(setq pixel-scroll-mode t)
