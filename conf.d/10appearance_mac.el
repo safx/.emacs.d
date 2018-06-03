@@ -26,5 +26,3 @@
               '((ns-appearance . dark)
                 (ns-transparent-titlebar . t)
                 )))
-
-;(setq pixel-scroll-mode t)
