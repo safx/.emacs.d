@@ -11,3 +11,7 @@
 (defface org-block-end-line
   '((t (:foreground "#900000" :background "#282828")))
   "Face used for the line delimiting the end of source blocks.")
+
+(defface org-level-2
+  '((t (:foreground "pink" :background "#282828")))
+  "Face used for the line delimiting the end of source blocks.")
