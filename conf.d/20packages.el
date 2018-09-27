@@ -3,10 +3,13 @@
     anzu
     aggressive-indent
     bind-key
-    ;coffee-mode
     company
     company-jedi
+    dired-efap
+    dired-k
+    dired-single
     ddskk
+    dockerfile-mode
     exec-path-from-shell
     expand-region
     flycheck
@@ -24,14 +27,13 @@
     helm-projectile
     iedit
     js2-mode
-    livescript-mode
+    ;livescript-mode
     magit
     markdown-mode
     paredit
     projectile
-    ;rust-mode
-    ;scala-mode2
-    scss-mode
+    rust-mode
+    ;scss-mode
     ;swift-mode
     volatile-highlights
     web-mode
