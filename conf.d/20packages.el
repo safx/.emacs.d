@@ -6,12 +6,13 @@
     bind-key
     company
     company-jedi
-    doom-themes
     dired-efap
     dired-k
     dired-single
     ddskk
     dockerfile-mode
+    doom-themes
+    dumb-jump
     exec-path-from-shell
     expand-region
     flycheck
