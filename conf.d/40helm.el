@@ -2,7 +2,7 @@
 (global-set-key (kbd "C-x C-r") 'helm-for-files)
 (global-set-key (kbd "H-f") 'helm-do-grep-ag)
 (global-set-key (kbd "H-g") 'helm-git-grep)
-;(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "H-p") 'helm-M-x)
 
 (define-key isearch-mode-map (kbd "H-g") 'helm-git-grep-from-isearch)
 

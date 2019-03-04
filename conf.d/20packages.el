@@ -19,21 +19,17 @@
     flymake-jshint
     git-gutter
     go-mode
-    ;go-eldoc
     guide-key
     haskell-mode
     helm
     helm-git-grep
     helm-ls-git
     ;helm-go-package
-    helm-projectile
     iedit
     js2-mode
-    ;livescript-mode
     magit
     markdown-mode
     paredit
-    projectile
     rust-mode
     ;scss-mode
     ;swift-mode
