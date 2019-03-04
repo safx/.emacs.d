@@ -2,9 +2,11 @@
   '(
     anzu
     aggressive-indent
+    beacon
     bind-key
     company
     company-jedi
+    doom-themes
     dired-efap
     dired-k
     dired-single

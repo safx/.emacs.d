@@ -2,7 +2,7 @@
 (set-cursor-color "light green")
 (setq initial-frame-alist
         (append '(
-                  (foreground-color . "#ffff90") (background-color . "#303020")
+                  ;(foreground-color . "#ffff90") (background-color . "#303020")
                   (mouse-color . "white")
                   (cursor-color . "light green")
                   (tool-bar-lines . 0) (menu-bar-lines . 0)
