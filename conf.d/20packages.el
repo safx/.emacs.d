@@ -1,11 +1,14 @@
 (defvar installing-package-list
   '(
+    ;all-the-icons
+    all-the-icons-ivy
     anzu
     aggressive-indent
     beacon
     bind-key
     company
     company-jedi
+    counsel
     dired-efap
     dired-k
     dired-single
@@ -22,11 +25,8 @@
     go-mode
     guide-key
     haskell-mode
-    helm
-    helm-git-grep
-    helm-ls-git
-    ;helm-go-package
     iedit
+    ivy-rich
     js2-mode
     magit
     markdown-mode

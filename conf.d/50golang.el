@@ -6,7 +6,6 @@
           '(lambda ()
              ;;(require 'go-eldoc)
              ;;(require 'flymake-go)
-             ;;(require 'helm-go-package)
 
              (setq-default)
              (setq tab-width 2)
