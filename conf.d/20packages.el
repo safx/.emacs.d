@@ -31,6 +31,7 @@
     magit
     markdown-mode
     paredit
+    rainbow-delimiters
     rust-mode
     ;scss-mode
     ;swift-mode
