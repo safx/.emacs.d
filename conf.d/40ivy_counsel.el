@@ -14,7 +14,8 @@
 (define-key global-map (kbd "C-H-p") 'ivy-resume)
 (define-key global-map (kbd "H-g") 'counsel-git-grep)
 (define-key global-map (kbd "H-f") 'counsel-ag)
-(define-key global-map (kbd "H-b") 'ivy-switch-buffer)
+(define-key global-map (kbd "H-q") 'counsel-apropos)
 (define-key global-map (kbd "C-x C-g") 'counsel-git)
+(define-key global-map (kbd "H-b") 'ivy-switch-buffer)
 
 (define-key ivy-minibuffer-map (kbd "C-w") 'ivy-yank-word)
