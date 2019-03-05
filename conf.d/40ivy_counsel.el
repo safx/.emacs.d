@@ -8,6 +8,7 @@
 (setq ivy-height 30)
 
 (global-set-key (kbd "H-s") 'swiper)
+(global-set-key (kbd "H-r") 'counsel-recentf)
 (global-set-key (kbd "H-o") 'counsel-find-file)
 (global-set-key (kbd "H-p") 'counsel-M-x)
 (global-set-key (kbd "C-H-p") 'ivy-resume)
