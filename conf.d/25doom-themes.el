@@ -18,3 +18,6 @@
 
 ;; Corrects (and improves) org-mode's native fontification.
 (doom-themes-org-config)
+
+;; Override theme settings
+(set-face-background 'show-paren-match "#c0c000")
