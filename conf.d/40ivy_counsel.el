@@ -8,7 +8,7 @@
 (setq ivy-height 30)
 
 (define-key global-map (kbd "H-s") 'swiper)
-(define-key global-map (kbd "H-r") 'counsel-recentf)
+(define-key global-map (kbd "C-x C-r") 'counsel-recentf)
 (define-key global-map (kbd "H-o") 'counsel-find-file)
 (define-key global-map (kbd "H-p") 'counsel-M-x)
 (define-key global-map (kbd "C-H-p") 'ivy-resume)
