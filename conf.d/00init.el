@@ -27,7 +27,7 @@
 
 ;; Show-paren-mode
 (show-paren-mode t)
-(set-face-background 'show-paren-match "#c0c000")
+;(set-face-background 'show-paren-match "#c0c000")
 
 ;; ask when exit
 (setq confirm-kill-emacs 'yes-or-no-p)
