@@ -2,6 +2,7 @@
 *.elc
 
 .lsp-session-v1
+.org-id-locations
 
 ac-comphist.dat
 projectile-bookmarks.eld
@@ -15,6 +16,8 @@ auto-save-list/
 server/
 url/
 
+transient/
 ensime/
 recentf
 tramp
+history
