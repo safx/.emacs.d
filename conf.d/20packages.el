@@ -6,7 +6,9 @@
     aggressive-indent
     beacon
     bind-key
+    consult
     company
+    company-lsp
     company-jedi
     counsel
     dired-efap
@@ -14,8 +16,11 @@
     dired-single
     ddskk
     dockerfile-mode
+    docker-tramp
     doom-themes
     dumb-jump
+    embark
+    embark-consult
     exec-path-from-shell
     expand-region
     flycheck
@@ -26,15 +31,20 @@
     guide-key
     haskell-mode
     iedit
-    ivy-rich
-    js2-mode
+    lsp-mode
+    lsp-ui
     magit
+    marginalia
     markdown-mode
+    orderless
     paredit
+    projectile
     rainbow-delimiters
+    rjsx-mode
     rust-mode
     ;scss-mode
     ;swift-mode
+    vertico
     volatile-highlights
     web-mode
     yaml-mode
