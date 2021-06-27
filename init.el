@@ -1,1 +1,1 @@
-(load-file "~/.emacs.d/conf.d/__bootstrap.el")
+(load-file "~/.emacs.d/myinit.el")
