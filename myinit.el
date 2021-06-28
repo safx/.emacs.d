@@ -5,16 +5,18 @@
   (package-initialize t)
   (setq package-enable-at-startup nil) ; for slightly faster startup
 
-  ;;; install use-package if not unstalled
+  ;;; install use-package if not installed
   (unless (package-installed-p 'use-package)
     (package-refresh-contents)
     (package-install 'use-package))
 
-  (require 'use-package))
+  (require 'use-package)
+  (require 'use-package-ensure)
+  (setq use-package-always-ensure t))
 
 
 
-(use-package emacs
+(use-package emacs :ensure nil :no-require
   :init
   ;; langage settings
   (setenv "LANG" "C")
@@ -93,7 +95,7 @@
 ;;; end use-package emacs
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package appearance-macos :no-require
+(use-package appearance-macos :ensure nil :no-require
   :if (and (eq system-type 'darwin) window-system)
   :config
     (let* ((size 14)
@@ -130,7 +132,7 @@
     (setq mouse-wheel-flip-direction t))
 
 
-(use-package appearance-macos :no-require
+(use-package appearance-macos :ensure nil :no-require
   :if (eq system-type 'darwin)
   :init
   (setq mac-option-modifier 'meta)
@@ -143,7 +145,7 @@
   ("H-z" . undo))
 
 
-(use-package appearance-windows :no-require
+(use-package appearance-windows :ensure nil :no-require
   :if (and (eq system-type 'windows-nt) window-system)
   :config
   (set-face-attribute 'default nil
@@ -156,7 +158,7 @@
   (setq face-font-rescale-alist '((".*M\\+.*" . 1.3))))
 
 
-(use-package delete-trailing-whitespace :no-require
+(use-package delete-trailing-whitespace :ensure nil :no-require
   :config
   (defvar my/current-cleanup-state "")
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -181,7 +183,7 @@
 ;;; end no-require scripts
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package redo
+(use-package redo :ensure nil :no-require
   :load-path "~/.emacs.d/lisp"
   :bind
   ("C-\\" . redo))
@@ -189,20 +191,20 @@
 ;;; end local scriptsa
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package server
-  :defer 10
+(use-package server :ensure nil
+  :defer 6
   :config
   (server-start))
 
 
-(use-package isearch
+(use-package isearch :ensure nil
   :bind
   (:map isearch-mode-map
         ("C-h" . isearch-delete-char)))
 
 
-(use-package org
-  :defer t
+(use-package org :ensure nil
+  :defer 9
   :config
   (setq org-src-fontify-natively t)
 
@@ -217,21 +219,21 @@
   (org-level-5 ((t (:foreground "green" :background "#182818" :bold t :height 1.00)))))
 
 
-(use-package recentf
+(use-package recentf :ensure nil
   :custom
   (recentf-auto-cleanup 99)
   :config
   (recentf-mode))
 
 
-(use-package savehist
+(use-package savehist :ensure nil
   :config
   (savehist-mode))
 
 ;;; end built-in packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package doom-themes :ensure t
+(use-package doom-themes
   :config
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
@@ -254,7 +256,7 @@
   (set-face-background 'show-paren-match "#c0c000"))
 
 
-(use-package company :ensure t
+(use-package company
   :config
   (setq company-tooltip-limit 20)
   (setq company-minimum-prefix-length 0)
@@ -278,13 +280,13 @@
                                      (t (:inherit company-tooltip-selection)))))
 
 
-(use-package anzu :ensure t
+(use-package anzu
   :bind (:map esc-map
               ("%" . anzu-query-replace)
               ("&" . query-replace-regexp)))
 
 
-(use-package beacon :ensure t
+(use-package beacon
   :custom
   (beacon-mode t)
   (beacon-blink-delay 0.1)
@@ -292,17 +294,17 @@
   (beacon-color "#eeee44"))
 
 
-(use-package dired-single :ensure t)
+(use-package dired-single)
 
 
-(use-package exec-path-from-shell :ensure t
+(use-package exec-path-from-shell
   :if (not (eq system-type 'windows-nt))
   :config
   (let ((envs '("PATH")))
     (exec-path-from-shell-copy-envs envs)))
 
 
-(use-package git-gutter :ensure t
+(use-package git-gutter
   :config
   (global-git-gutter-mode +1)
 
@@ -317,7 +319,7 @@
   (git-gutter:deleted  ((t (:foreground "red"   )))))
 
 
-(use-package iedit :ensure t
+(use-package iedit
   :bind
   ("C-;" . iedit-mode)
 
@@ -327,11 +329,12 @@
               ("C-h" . backward-delete-char-untabify)))
 
 
-(use-package magit :ensure t
+(use-package magit
+  :defer 3
   :bind ("C-#" . magit-status))
 
 
-(use-package vertico :ensure t
+(use-package vertico
   :config
   (vertico-mode)
   (setq vertico-count 40)
@@ -339,17 +342,17 @@
   (define-key vertico-map (kbd "C-w") 'backward-kill-word))
 
 
-(use-package orderless :ensure t
+(use-package orderless
   :init
   (setq completion-styles '(orderless)
         completion-category-defaults nil
         completion-category-overrides '((file (styles . (partial-completion))))))
 
 
-(use-package projectile :ensure t)
+(use-package projectile)
 
 
-(use-package consult :ensure t
+(use-package consult
   :init
   (setq register-preview-delay 0
         register-preview-function #'consult-register-format)
@@ -377,12 +380,12 @@
    ("M-y" . consult-yank-pop)))
 
 
-(use-package marginalia :ensure t
+(use-package marginalia
   :config
   (marginalia-mode))
 
 
-(use-package embark :ensure t
+(use-package embark
   :bind
   (("H-." . embark-act)         ;; pick some comfortable binding
    ("H-;" . embark-dwim))       ;; good alternative: M-.
@@ -399,7 +402,7 @@
                  (window-parameters (mode-line-format . none)))))
 
 
-(use-package embark-consult :ensure t
+(use-package embark-consult
   :after (embark consult)
   :demand t ; only necessary if you have the hook below
   ;; if you want to have consult previews as you move around an
@@ -408,31 +411,31 @@
   (embark-collect-mode . consult-preview-at-point-mode))
 
 
-(use-package volatile-highlights :ensure t
+(use-package volatile-highlights
   :config
   (volatile-highlights-mode))
 
 
-(use-package web-mode :ensure t
+(use-package web-mode
   :config
   (add-to-list 'auto-mode-alist '("\\.js$" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode)))
 
 
 ;;; other modes
-(use-package rjsx-mode :ensure t)
-(use-package rust-mode :ensure t)
-(use-package yaml-mode :ensure t)
-(use-package markdown-mode :ensure t)
-(use-package dockerfile-mode :ensure t)
+(use-package rjsx-mode)
+(use-package rust-mode)
+(use-package yaml-mode)
+(use-package markdown-mode)
+(use-package dockerfile-mode)
 
 
-(use-package docker-tramp :ensure t
+(use-package docker-tramp
   :config
   (set-variable 'docker-tramp-use-names t))
 
 
-(use-package ddskk :ensure t
+(use-package ddskk
   :config
   (setq skk-date-ad nil)
   (setq skk-number-style nil)
