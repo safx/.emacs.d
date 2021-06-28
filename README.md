@@ -2,7 +2,8 @@
 
     git clone git@github.com:safx/.emacs.d.git
 
-## TODO
+# TODO
 
-- [ ] use use-package
-- [ ] LSP eglot or lsp-mode + lsp-ui
+- [ ] remove unused files
+    - remove dabbrev-highlight.el
+    - remove conf.d
