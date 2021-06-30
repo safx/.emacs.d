@@ -256,7 +256,13 @@
   (set-face-background 'show-paren-match "#c0c000"))
 
 
+(use-package flycheck
+  :custom-face
+  :hook (prog-mode . flycheck-mode))
+
+
 (use-package company
+  :hook (prog-mode . company-mode)
   :config
   (setq company-tooltip-limit 20)
   (setq company-minimum-prefix-length 0)
@@ -278,6 +284,13 @@
   (company-scrollbar-bg ((t (:background "white"))))
   (company-tooltip-common-selection ((((type x)) (:inherit company-tooltip-selection :weight bold))
                                      (t (:inherit company-tooltip-selection)))))
+
+
+(use-package lsp-mode
+  :bind ("H-:" . lsp-describe-thing-at-point)
+  :hook (rust-mode . lsp))
+
+(use-package lsp-ui)
 
 
 (use-package anzu
@@ -428,6 +441,7 @@
 (use-package yaml-mode)
 (use-package markdown-mode)
 (use-package dockerfile-mode)
+(use-package toml-mode)
 
 
 (use-package docker-tramp
@@ -449,3 +463,16 @@
           ("z{" nil "【】")))
   :bind
   ("C-x C-j" . skk-mode))
+
+;;; Rust
+(use-package rust-mode
+  ;; :custom (rust-format-on-save t)
+  :hook (rust-mode . lsp))
+
+
+(use-package cargo
+  :hook (rust-mode . cargo-minor-mode))
+
+
+(use-package flycheck-rust
+  :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
