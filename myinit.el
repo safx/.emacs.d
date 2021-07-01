@@ -261,7 +261,15 @@
   :hook (prog-mode . flycheck-mode))
 
 
-(use-package company
+(use-package corfu
+  :bind ("M-p" . dabbrev-completion)
+  :init
+  (setq completion-cycle-threshold 3)
+  (setq tab-always-indent 'complete)
+  (corfu-global-mode))
+
+
+(use-package company :disabled t
   :hook (prog-mode . company-mode)
   :config
   (setq company-tooltip-limit 20)
