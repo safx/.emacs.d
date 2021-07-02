@@ -4,6 +4,4 @@
 
 # TODO
 
-- [ ] remove unused files
-    - remove dabbrev-highlight.el
-    - remove conf.d
+- [ ] remove dabbrev-highlight.el
