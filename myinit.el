@@ -30,6 +30,11 @@
   ;;(set-default-coding-systems 'utf-8)
   ;;(setq coding-system-for-read 'utf-8)
 
+  (setq completion-cycle-threshold 3)
+  (setq tab-always-indent 'complete)
+
+  (setq custom-file (concat user-emacs-directory "/custom-set-variables.el"))
+
   ;; global-settings
   (setq-default major-mode 'lisp-interaction-mode)
   (setq-default indent-tabs-mode nil)
@@ -259,14 +264,6 @@
 (use-package flycheck
   :custom-face
   :hook (prog-mode . flycheck-mode))
-
-
-(use-package corfu
-  :bind ("M-p" . dabbrev-completion)
-  :init
-  (setq completion-cycle-threshold 3)
-  (setq tab-always-indent 'complete)
-  (corfu-global-mode))
 
 
 (use-package company :disabled t
