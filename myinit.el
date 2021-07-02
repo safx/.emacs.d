@@ -1,22 +1,28 @@
-(eval-when-compile
-  ;; package setup
-  (require 'package)
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-  (package-initialize t)
+;; <leaf-install-code>
+(eval-and-compile
+  (customize-set-variable
+   'package-archives '(("org" . "https://orgmode.org/elpa/")
+                       ("melpa" . "https://melpa.org/packages/")
+                       ("gnu" . "https://elpa.gnu.org/packages/")))
   (setq package-enable-at-startup nil) ; for slightly faster startup
-
-  ;;; install use-package if not installed
-  (unless (package-installed-p 'use-package)
+  (package-initialize t)
+  (unless (package-installed-p 'leaf)
     (package-refresh-contents)
-    (package-install 'use-package))
+    (package-install 'leaf))
 
-  (require 'use-package)
-  (require 'use-package-ensure)
-  (setq use-package-always-ensure t))
+  (leaf leaf-keywords :ensure t :disabled t
+    :init
+    ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
+    (leaf hydra :ensure nil)
+    (leaf el-get :ensure nil)
+    (leaf blackout :ensure nil)
+
+    :config
+    (leaf-keywords-init)))
+;; </leaf-install-code>
 
 
-
-(use-package emacs :ensure nil :no-require
+(leaf *emacs
   :init
   ;; langage settings
   (setenv "LANG" "C")
@@ -29,6 +35,11 @@
   (prefer-coding-system 'utf-8)
   ;;(set-default-coding-systems 'utf-8)
   ;;(setq coding-system-for-read 'utf-8)
+
+  (setq completion-cycle-threshold 3)
+  (setq tab-always-indent 'complete)
+
+  (setq custom-file (concat user-emacs-directory "/custom-set-variables.el"))
 
   ;; global-settings
   (setq-default major-mode 'lisp-interaction-mode)
@@ -50,6 +61,17 @@
   ;;(set-face-background 'show-paren-match "#c0c000")
 
   (setq confirm-kill-emacs 'yes-or-no-p)
+
+  (defun my/kill-line-for-readonly ()
+    (interactive)
+    (if (not buffer-read-only)
+        (kill-line)
+      (kill-new (buffer-substring (point) (line-end-position)))))
+
+  (defun my/toggle-truncate-lines ()
+    (interactive)
+    (setq truncate-lines (not truncate-lines))
+    (recenter))
 
   ;; common appearances
   (set-fringe-mode '(1 . 1))
@@ -77,25 +99,16 @@
   ("M-g" . goto-line)
   ("M-o" . dabbrev-expand)
   ("C-o" . other-window)
-
-  ("C-x q" . (lambda ()
-               (interactive)
-               (setq truncate-lines (not truncate-lines))
-               (recenter)))
-
-  ("C-k" . (lambda ()
-             (interactive)
-             (if (not buffer-read-only)
-                 (kill-line)
-               (kill-new (buffer-substring (point) (line-end-position))))))
-
-  (:map minibuffer-local-completion-map
+  ("C-x q" . my/toggle-truncate-lines)
+  ("C-k" . my/kill-line-for-readonly)
+  (:minibuffer-local-completion-map
          ("C-w" . backward-kill-word)))
 
-;;; end use-package emacs
+
+;;; end leaf emacs
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package appearance-macos :ensure nil :no-require
+(leaf *appearance-macos
   :if (and (eq system-type 'darwin) window-system)
   :config
     (let* ((size 14)
@@ -132,7 +145,7 @@
     (setq mouse-wheel-flip-direction t))
 
 
-(use-package appearance-macos :ensure nil :no-require
+(leaf *appearance-macos
   :if (eq system-type 'darwin)
   :init
   (setq mac-option-modifier 'meta)
@@ -145,7 +158,7 @@
   ("H-z" . undo))
 
 
-(use-package appearance-windows :ensure nil :no-require
+(leaf *appearance-windows
   :if (and (eq system-type 'windows-nt) window-system)
   :config
   (set-face-attribute 'default nil
@@ -158,7 +171,7 @@
   (setq face-font-rescale-alist '((".*M\\+.*" . 1.3))))
 
 
-(use-package delete-trailing-whitespace :ensure nil :no-require
+(leaf *delete-trailing-whitespace
   :config
   (defvar my/current-cleanup-state "")
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -183,7 +196,7 @@
 ;;; end no-require scripts
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package redo :ensure nil :no-require
+(leaf *redo
   :load-path "~/.emacs.d/lisp"
   :bind
   ("C-\\" . redo))
@@ -191,49 +204,46 @@
 ;;; end local scriptsa
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package server :ensure nil
-  :defer 6
-  :config
-  (server-start))
+(leaf *server
+  :hook (emacs-startup-hook . server-start))
 
 
-(use-package isearch :ensure nil
+(leaf *isearch
   :bind
-  (:map isearch-mode-map
+  (:isearch-mode-map
         ("C-h" . isearch-delete-char)))
 
 
-(use-package org :ensure nil
-  :defer 9
+(leaf *org
   :config
   (setq org-src-fontify-natively t)
 
   :custom-face
-  (org-block-begin-line ((t (:foreground "#900000" :background "#2c2c22"))))
-  (org-block-end-line   ((t (:foreground "#900000" :background "#2c2c22"))))
-  (org-block            ((t (:background "#2c2c22"))))
-  (org-level-1 ((t (:foreground "green" :background "#183818" :bold t :height 1.15))))
-  (org-level-2 ((t (:foreground "green" :background "#182818" :bold t :height 1.10))))
-  (org-level-3 ((t (:foreground "green" :background "#182818" :bold t :height 1.05))))
-  (org-level-4 ((t (:foreground "green" :background "#182818" :bold t :height 1.00))))
-  (org-level-5 ((t (:foreground "green" :background "#182818" :bold t :height 1.00)))))
+  (org-block-begin-line . '((t (:foreground "#900000" :background "#2c2c22"))))
+  (org-block-end-line   . '((t (:foreground "#900000" :background "#2c2c22"))))
+  (org-block            . '((t (:background "#2c2c22"))))
+  (org-level-1 . '((t (:foreground "green" :background "#183818" :bold t :height 1.15))))
+  (org-level-2 . '((t (:foreground "green" :background "#182818" :bold t :height 1.10))))
+  (org-level-3 . '((t (:foreground "green" :background "#182818" :bold t :height 1.05))))
+  (org-level-4 . '((t (:foreground "green" :background "#182818" :bold t :height 1.00))))
+  (org-level-5 . '((t (:foreground "green" :background "#182818" :bold t :height 1.00)))))
 
 
-(use-package recentf :ensure nil
+(leaf *recentf
   :custom
-  (recentf-auto-cleanup 99)
+  (recentf-auto-cleanup . 99)
   :config
   (recentf-mode))
 
 
-(use-package savehist :ensure nil
+(leaf *savehist
   :config
   (savehist-mode))
 
 ;;; end built-in packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package doom-themes
+(leaf doom-themes :ensure t
   :config
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
@@ -256,21 +266,12 @@
   (set-face-background 'show-paren-match "#c0c000"))
 
 
-(use-package flycheck
-  :custom-face
-  :hook (prog-mode . flycheck-mode))
+(leaf flycheck :ensure t
+  :hook (prog-mode-hook . flycheck-mode))
 
 
-(use-package corfu
-  :bind ("M-p" . dabbrev-completion)
-  :init
-  (setq completion-cycle-threshold 3)
-  (setq tab-always-indent 'complete)
-  (corfu-global-mode))
-
-
-(use-package company :disabled t
-  :hook (prog-mode . company-mode)
+(leaf company :ensure t
+  :hook (prog-mode-hook . company-mode)
   :config
   (setq company-tooltip-limit 20)
   (setq company-minimum-prefix-length 0)
@@ -278,84 +279,84 @@
   (setq company-echo-delay 0)
   (setq company-begin-commands '(self-insert-command))
 
-  :bind (:map company-active-map
+  :bind (:company-active-map
               ("C-h" . nil))
 
   :custom-face
-  (company-preview ((t (:foreground "darkgray" :underline t))))
-  (company-preview-common ((t (:inherit company-preview))))
-  (company-tooltip ((t (:background "lightgray" :foreground "black"))))
-  (company-tooltip-selection ((t (:background "steelblue" :foreground "white"))))
-  (company-tooltip-common ((((type x)) (:inherit company-tooltip :weight bold))
+  (company-preview . '((t (:foreground "darkgray" :underline t))))
+  (company-preview-common . '((t (:inherit company-preview))))
+  (company-tooltip . '((t (:background "lightgray" :foreground "black"))))
+  (company-tooltip-selection . '((t (:background "steelblue" :foreground "white"))))
+  (company-tooltip-common . '((((type x)) (:inherit company-tooltip :weight bold))
                            (t (:inherit company-tooltip))))
-  (company-scrollbar-fg ((t (:background "gray64"))))
-  (company-scrollbar-bg ((t (:background "white"))))
-  (company-tooltip-common-selection ((((type x)) (:inherit company-tooltip-selection :weight bold))
+  (company-scrollbar-fg . '((t (:background "gray64"))))
+  (company-scrollbar-bg . '((t (:background "white"))))
+  (company-tooltip-common-selection . '((((type x)) (:inherit company-tooltip-selection :weight bold))
                                      (t (:inherit company-tooltip-selection)))))
 
 
-(use-package lsp-mode
-  :bind ("H-:" . lsp-describe-thing-at-point)
-  :hook (rust-mode . lsp))
-
-(use-package lsp-ui)
+(leaf lsp-mode :ensure t
+  :commands lsp
+  :bind ("H-:" . lsp-describe-thing-at-point))
 
 
-(use-package anzu
-  :bind (:map esc-map
+(leaf lsp-ui :ensure t)
+
+
+(leaf anzu :ensure t
+  :bind (:esc-map
               ("%" . anzu-query-replace)
               ("&" . query-replace-regexp)))
 
 
-(use-package beacon
+(leaf beacon :ensure t
   :custom
-  (beacon-mode t)
-  (beacon-blink-delay 0.1)
-  (beacon-blink-duration 0.1)
-  (beacon-color "#eeee44"))
+  (beacon-mode . t)
+  (beacon-blink-delay . 0.1)
+  (beacon-blink-duration . 0.1)
+  (beacon-color . "#eeee44"))
 
 
-(use-package dired-single)
+(leaf dired-single :ensure t)
 
 
-(use-package exec-path-from-shell
+(leaf exec-path-from-shell :ensure t
   :if (not (eq system-type 'windows-nt))
   :config
   (let ((envs '("PATH")))
     (exec-path-from-shell-copy-envs envs)))
 
 
-(use-package git-gutter
+(leaf git-gutter :ensure t
   :config
   (global-git-gutter-mode +1)
 
   :custom
-  (git-gutter:modified-sign "!")
-  (git-gutter:added-sign "+")
-  (git-gutter:deleted-sign "-")
+  (git-gutter:modified-sign . "┃")
+  (git-gutter:added-sign    . "┃")
+  (git-gutter:deleted-sign  . "┃")
 
   :custom-face
-  (git-gutter:modified ((t (:foreground "purple"))))
-  (git-gutter:added    ((t (:foreground "green" ))))
-  (git-gutter:deleted  ((t (:foreground "red"   )))))
+  (git-gutter:modified . '((t (:foreground "#c96cd5"))))
+  (git-gutter:added    . '((t (:foreground "#43a234"))))
+  (git-gutter:deleted  . '((t (:foreground "#e7766d")))))
 
 
-(use-package iedit
+(leaf iedit :ensure t
   :bind
   ("C-;" . iedit-mode)
 
-  :bind (:map iedit-mode-keymap
+  :bind (:iedit-mode-keymap
               ("M-p" . iedit-prev-occurrence)
               ("M-n" . iedit-next-occurrence)
               ("C-h" . backward-delete-char-untabify)))
 
 
-(use-package magit
-  :defer 3
+(leaf magit :ensure t
   :bind ("C-#" . magit-status))
 
 
-(use-package vertico
+(leaf vertico :ensure t
   :config
   (vertico-mode)
   (setq vertico-count 40)
@@ -363,23 +364,23 @@
   (define-key vertico-map (kbd "C-w") 'backward-kill-word))
 
 
-(use-package orderless
+(leaf orderless :ensure t
   :init
   (setq completion-styles '(orderless)
         completion-category-defaults nil
         completion-category-overrides '((file (styles . (partial-completion))))))
 
 
-(use-package projectile)
+(leaf projectile :ensure t)
 
 
-(use-package consult
+(leaf consult :ensure t
   :init
   (setq register-preview-delay 0
         register-preview-function #'consult-register-format)
   (advice-add #'register-preview :override #'consult-register-window)
 
-  :hook (completion-list-mode . consult-preview-at-point-mode)
+  :hook (completion-list-mode-hook . consult-preview-at-point-mode)
 
   :config
   (autoload 'projectile-project-root "projectile")
@@ -401,12 +402,12 @@
    ("M-y" . consult-yank-pop)))
 
 
-(use-package marginalia
+(leaf marginalia :ensure t
   :config
   (marginalia-mode))
 
 
-(use-package embark
+(leaf embark :ensure t
   :bind
   (("H-." . embark-act)         ;; pick some comfortable binding
    ("H-;" . embark-dwim))       ;; good alternative: M-.
@@ -423,41 +424,41 @@
                  (window-parameters (mode-line-format . none)))))
 
 
-(use-package embark-consult
+(leaf embark-consult :ensure t
   :after (embark consult)
-  :demand t ; only necessary if you have the hook below
+  ;:demand t ; only necessary if you have the hook below
   ;; if you want to have consult previews as you move around an
   ;; auto-updating embark collect buffer
   :hook
-  (embark-collect-mode . consult-preview-at-point-mode))
+  (embark-collect-mode-hook . consult-preview-at-point-mode))
 
 
-(use-package volatile-highlights
+(leaf volatile-highlights :ensure t
   :config
   (volatile-highlights-mode))
 
 
-(use-package web-mode
+(leaf web-mode :ensure t
   :config
   (add-to-list 'auto-mode-alist '("\\.js$" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode)))
 
 
 ;;; other modes
-(use-package rjsx-mode)
-(use-package rust-mode)
-(use-package yaml-mode)
-(use-package markdown-mode)
-(use-package dockerfile-mode)
-(use-package toml-mode)
+(leaf rjsx-mode :ensure t)
+(leaf rust-mode :ensure t)
+(leaf yaml-mode :ensure t)
+(leaf markdown-mode :ensure t)
+(leaf dockerfile-mode :ensure t)
+(leaf toml-mode :ensure t)
 
 
-(use-package docker-tramp
+(leaf docker-tramp :ensure t
   :config
   (set-variable 'docker-tramp-use-names t))
 
 
-(use-package ddskk
+(leaf ddskk :ensure t
   :config
   (setq skk-date-ad nil)
   (setq skk-number-style nil)
@@ -473,14 +474,13 @@
   ("C-x C-j" . skk-mode))
 
 ;;; Rust
-(use-package rust-mode
-  ;; :custom (rust-format-on-save t)
-  :hook (rust-mode . lsp))
+(leaf rust-mode :ensure t
+  ;; :custom (rust-format-on-save . t)
+  :hook (rust-mode-hook . lsp))
+
+(leaf cargo :ensure t
+  :hook (rust-mode-hook . cargo-minor-mode))
 
 
-(use-package cargo
-  :hook (rust-mode . cargo-minor-mode))
-
-
-(use-package flycheck-rust
+(leaf flycheck-rust :ensure t
   :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
