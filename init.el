@@ -49,8 +49,9 @@
   (setq next-line-add-newlines nil)
   (setq scalable-fonts-allowed t)
   (setq debug-on-error t)
-  (line-number-mode t)
+  ;;(global-display-line-numbers-mode t)
   (global-font-lock-mode t)
+  (save-place-mode t)
   (setq global-auto-revert-mode t)
   (setq eval-expression-print-length nil)
   (transient-mark-mode 0)
@@ -155,7 +156,10 @@
   ("H-v" . yank)
   ("H-c" . kill-ring-save)
   ("H-l" . goto-line)
-  ("H-z" . undo))
+  ("H-z" . undo)
+  ("H-r" . jump-to-register)
+  ("H-b" . bookmark-jump)
+  ("H-C-b" . bookmark-set))
 
 
 (leaf *appearance-windows
@@ -193,6 +197,12 @@
 
   (global-set-key (kbd "C-x w") 'toggle-delete-trailing-whitespaces))
 
+
+(leaf *load-local-files
+  :config
+  (load-file "~/.emacs.d/registers.el"))
+
+
 ;;; end no-require scripts
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -217,6 +227,7 @@
 (leaf *org
   :config
   (setq org-src-fontify-natively t)
+  (setq org-special-ctrl-a/e t)
 
   :custom-face
   (org-block-begin-line . '((t (:foreground "#900000" :background "#2c2c22"))))

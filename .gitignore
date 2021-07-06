@@ -1,6 +1,7 @@
 *~
 *.elc
 custom-set-variables.el
+registers.el
 
 .lsp-session-v1
 .org-id-locations
@@ -22,3 +23,5 @@ ensime/
 recentf
 tramp
 history
+bookmarks
+places
