@@ -239,6 +239,21 @@
   (org-level-4 . '((t (:foreground "green" :background "#182818" :bold t :height 1.00))))
   (org-level-5 . '((t (:foreground "green" :background "#182818" :bold t :height 1.00)))))
 
+(leaf ob-js
+  :require org
+  :config
+  (add-to-list 'org-babel-load-languages '(js . t))
+  (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages)
+  (add-to-list 'org-babel-tangle-lang-exts '("js" . "js")))
+
+
+(leaf *org-python
+  :require org
+  :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((python . t))))
+
 
 (leaf *recentf
   :custom
@@ -464,7 +479,7 @@
 (leaf toml-mode :ensure t)
 
 
-(leaf docker-tramp :ensure t
+(leaf docker-tramp :ensure t :disabled t
   :config
   (set-variable 'docker-tramp-use-names t))
 
@@ -494,4 +509,5 @@
 
 
 (leaf flycheck-rust :ensure t
+  :require flycheck
   :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
