@@ -511,3 +511,7 @@
 (leaf flycheck-rust :ensure t
   :require flycheck
   :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+
+
+(leaf docker :ensure t
+  :bind ("H-d" . docker))
