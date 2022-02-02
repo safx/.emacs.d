@@ -184,7 +184,7 @@
                 (cons '(:eval my/current-cleanup-state)
                       mode-line-format))
 
-  (defun toggle-delete-trailing-whitespaces ()
+  (defun my/toggle-delete-trailing-whitespaces ()
     (interactive)
     (cond ((memq 'delete-trailing-whitespace before-save-hook)
            (setq my/current-cleanup-state
@@ -195,7 +195,7 @@
            (add-hook 'before-save-hook 'delete-trailing-whitespace)))
     (force-mode-line-update))
 
-  (global-set-key (kbd "C-x w") 'toggle-delete-trailing-whitespaces))
+  (global-set-key (kbd "C-x w") 'my/toggle-delete-trailing-whitespaces))
 
 
 (leaf *load-local-files
@@ -388,7 +388,9 @@
   (setq vertico-count 40)
   (setq vertico-cycle t)
   (define-key vertico-map (kbd "C-w") 'backward-kill-word))
-
+  ;; It does not working correctly
+  ;:bind (:vertico-map
+  ;       ("C-w" . backward-kill-word)))
 
 (leaf orderless :ensure t
   :init
