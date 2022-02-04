@@ -152,7 +152,6 @@
   (setq mac-option-modifier 'meta)
   (setq mac-command-modifier 'hyper)
   :bind
-  ("H-a" . mark-whole-buffer)
   ("H-v" . yank)
   ("H-c" . kill-ring-save)
   ("H-l" . goto-line)
@@ -225,10 +224,51 @@
         ("C-h" . isearch-delete-char)))
 
 
-(leaf *org
+(leaf org
+  :custom
+  (org-agenda-format-date . "%Y-%m-%d %a")
+  (org-agenda-prefix-format
+   . '((agenda . " ◇ %?-12t % s")
+       (todo   . " ◇ ")
+       (tags   . " ◇ ")
+       (search . " ◇ ")))
+
   :config
+  (setq org-directory "~/Documents/org")
+  (setq org-agenda-files (list "~/Documents/org/cal"))
   (setq org-src-fontify-natively t)
   (setq org-special-ctrl-a/e t)
+  (setq org-hide-leading-stars t)
+
+;  (setq org-capture-templates
+;          '(("t" "Todo" entry (file+headline "~/Documents/org/cal/todo.org" "Tasks")
+;             "* TODO %?\n  %i\ncreated in %t")))
+
+  (defun my/org-capture-todo ()
+    (interactive)
+    (setq org-capture-templates
+          (list (list "t" "Today" 'entry (list 'file+headline "~/Documents/org/cal/todo.org" "Tasks")
+             (concat "* TODO %?\n  %i\ncreated in " (format-time-string "[%Y-%m-%d %a %H:%M]")))))
+    (org-capture nil "t"))
+
+  (defun my/org-insert-today-header ()
+    (interactive)
+    (end-of-buffer)
+    (insert (concat "* " (format-time-string "[%Y-%m-%d %a]\n"))))
+
+  ;; used in org file
+  (defun my/pull-request-path (tag)
+    (let ((project (car (split-string tag "/")))
+          (repository (cadr (split-string tag "/")))
+          (pr-number (caddr (split-string tag "/"))))
+      (concat "git/" project "/" repository "/pullRequests/" pr-number "/diff")))
+
+  :bind
+  ("H-a" . org-agenda)
+  ("H-@" . my/org-insert-today-header)
+  ("H-^" . my/org-capture-todo)
+  (:org-mode-map
+              ("H-o" . consult-org-heading))
 
   :custom-face
   (org-block-begin-line . '((t (:foreground "#900000" :background "#2c2c22"))))
@@ -238,7 +278,10 @@
   (org-level-2 . '((t (:foreground "green" :background "#182818" :bold t :height 1.10))))
   (org-level-3 . '((t (:foreground "green" :background "#182818" :bold t :height 1.05))))
   (org-level-4 . '((t (:foreground "green" :background "#182818" :bold t :height 1.00))))
-  (org-level-5 . '((t (:foreground "green" :background "#182818" :bold t :height 1.00)))))
+  (org-level-5 . '((t (:foreground "green" :background "#182818" :bold t :height 1.00))))
+  (org-drawer          . '((t (:foreground "gray" :height 0.66))))
+  (org-special-keyword . '((t (:foreground "gray" :height 0.66))))
+  (org-property-value  . '((t (:foreground "gray" :height 0.66)))))
 
 (leaf ob-js
   :require org
@@ -422,7 +465,7 @@
   :bind
   (("C-x C-r" . consult-recent-file)
    ("C-x b" . consult-buffer)
-   ("H-t" . consult-outline)
+   ("H-o" . consult-outline)
    ("H-l" . consult-line)
    ("H-g" . consult-git-grep)
    ("H-f" . consult-ripgrep)
