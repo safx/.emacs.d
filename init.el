@@ -200,8 +200,9 @@
 
 (leaf *load-local-files
   :config
-  (load-file "~/.emacs.d/registers.el"))
-
+  (let ((file "~/.emacs.d/local-settings.el"))
+    (when (file-exists-p file)
+      (load-file file))))
 
 ;;; end no-require scripts
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

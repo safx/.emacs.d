@@ -1,7 +1,7 @@
 *~
 *.elc
 custom-set-variables.el
-registers.el
+local-settings.el
 
 .lsp-session-v1
 .org-id-locations
