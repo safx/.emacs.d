@@ -4,6 +4,7 @@
    'package-archives '(("org" . "https://orgmode.org/elpa/")
                        ("melpa" . "https://melpa.org/packages/")
                        ("gnu" . "https://elpa.gnu.org/packages/")))
+  (setq package-native-compile t)
   (setq package-enable-at-startup nil) ; for slightly faster startup
   (package-initialize t)
   (unless (package-installed-p 'leaf)
