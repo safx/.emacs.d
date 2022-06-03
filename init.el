@@ -546,7 +546,14 @@
   :bind
   ("C-x C-j" . skk-mode))
 
-;;; Rust
+
+(leaf highlight-indent-guides :ensure t
+  :config
+  (setq highlight-indent-guides-method 'character)
+  :hook
+  (yaml-mode-hook . highlight-indent-guides-mode)
+  (prog-mode-hook . highlight-indent-guides-mode))
+
 (leaf rust-mode :ensure t
   ;; :custom (rust-format-on-save . t)
   :hook (rust-mode-hook . lsp))
