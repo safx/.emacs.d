@@ -11,11 +11,11 @@
     (package-refresh-contents)
     (package-install 'leaf))
 
-  (leaf leaf-keywords :ensure t :disabled t
+  (leaf leaf-keywords :ensure t
     :init
     ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
     (leaf hydra :ensure nil)
-    (leaf el-get :ensure nil)
+    (leaf el-get :ensure t)
     (leaf blackout :ensure nil)
 
     :config
@@ -535,11 +535,23 @@
 
 (leaf highlight-indent-guides :ensure t
   :config
-  (setq highlight-indent-guides-method 'character)
+  (setq highlight-indent-guides-method 'bitmap)
   :hook
   (yaml-mode-hook . highlight-indent-guides-mode)
   (prog-mode-hook . highlight-indent-guides-mode))
 
+
+(leaf origami :ensure t)
+(leaf tree-sitter :ensure t)
+(leaf tree-sitter-langs :ensure t)
+(leaf *tsi
+  :require t
+  :el-get "orzechowskid/tsi.el")
+(leaf *tsx-mode
+  :require origami tree-sitter tree-sitter-langs tsi
+  :el-get "orzechowskid/tsx-mode.el"
+  :config
+  (add-to-list 'auto-mode-alist '("\\.tsx$" . tsx-mode)))
 
 ;;; other modes
 (leaf rjsx-mode :ensure t)

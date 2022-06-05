@@ -3,6 +3,7 @@
 custom-set-variables.el
 local-settings.el
 eln-cache/
+.cache/
 .lsp-session-v1
 .org-id-locations
 
