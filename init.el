@@ -517,20 +517,6 @@
   (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode)))
 
 
-;;; other modes
-(leaf rjsx-mode :ensure t)
-(leaf rust-mode :ensure t)
-(leaf yaml-mode :ensure t)
-(leaf markdown-mode :ensure t)
-(leaf dockerfile-mode :ensure t)
-(leaf toml-mode :ensure t)
-
-
-(leaf docker-tramp :ensure t :disabled t
-  :config
-  (set-variable 'docker-tramp-use-names t))
-
-
 (leaf ddskk :ensure t
   :config
   (setq skk-date-ad nil)
@@ -554,9 +540,20 @@
   (yaml-mode-hook . highlight-indent-guides-mode)
   (prog-mode-hook . highlight-indent-guides-mode))
 
+
+;;; other modes
+(leaf rjsx-mode :ensure t)
+(leaf yaml-mode :ensure t)
+(leaf markdown-mode :ensure t)
+(leaf dockerfile-mode :ensure t)
+(leaf docker-compose-mode :ensure t)
+(leaf toml-mode :ensure t)
+
+
 (leaf rust-mode :ensure t
   ;; :custom (rust-format-on-save . t)
   :hook (rust-mode-hook . lsp))
+
 
 (leaf cargo :ensure t
   :hook (rust-mode-hook . cargo-minor-mode))
@@ -569,3 +566,10 @@
 
 (leaf docker :ensure t
   :bind ("H-d" . docker))
+
+
+(leaf docker-tramp :ensure t :disabled t
+  :config
+  (set-variable 'docker-tramp-use-names t))
+
+;;; init.el ends here
