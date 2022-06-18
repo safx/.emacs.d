@@ -545,7 +545,6 @@
 (leaf tree-sitter :ensure t)
 (leaf tree-sitter-langs :ensure t)
 (leaf *tsi
-  :require t
   :el-get "orzechowskid/tsi.el")
 (leaf *tsx-mode
   :require origami tree-sitter tree-sitter-langs tsi
