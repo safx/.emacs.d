@@ -257,7 +257,13 @@
     (end-of-buffer)
     (insert (concat "* " (format-time-string "[%Y-%m-%d %a]\n"))))
 
-  ;; used in org file
+  (defun my/affe-grep-org ()
+    "search in org directory"
+    (interactive)
+    (let ((initial-directory org-directory)
+          (initial-input "^\\*+ "))
+      (consult-ripgrep initial-directory initial-input)))
+
   (defun my/pull-request-path (tag)
     (let ((project (car (split-string tag "/")))
           (repository (cadr (split-string tag "/")))
@@ -265,6 +271,7 @@
       (concat "git/" project "/" repository "/pullRequests/" pr-number "/diff")))
 
   :bind
+  ("H-u" . my/affe-grep-org)
   ("H-a" . org-agenda)
   ("H-@" . my/org-insert-today-header)
   ("H-^" . my/org-capture-todo)
@@ -473,6 +480,9 @@
    ("H-q" . consult-apropos)
    ("C-x C-g" . consult-find)
    ("M-y" . consult-yank-pop)))
+
+
+(leaf affe :ensure t)
 
 
 (leaf marginalia :ensure t
