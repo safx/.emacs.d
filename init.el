@@ -235,33 +235,34 @@
        (search . " ◇ ")))
 
   :config
+  (setq org-ellipsis " ▾")
   (setq org-directory "~/Documents/org")
   (setq org-agenda-files (list "~/Documents/org/cal"))
   (setq org-src-fontify-natively t)
   (setq org-special-ctrl-a/e t)
   (setq org-hide-leading-stars t)
-
-;  (setq org-capture-templates
-;          '(("t" "Todo" entry (file+headline "~/Documents/org/cal/todo.org" "Tasks")
-;             "* TODO %?\n  %i\ncreated in %t")))
-
-  (defun my/org-capture-todo ()
-    (interactive)
-    (setq org-capture-templates
-          (list (list "t" "Today" 'entry (list 'file+headline "~/Documents/org/cal/todo.org" "Tasks")
-             (concat "* TODO %?\n  %i\ncreated in " (format-time-string "[%Y-%m-%d %a %H:%M]")))))
-    (org-capture nil "t"))
-
-  (defun my/org-insert-today-header ()
-    (interactive)
-    (end-of-buffer)
-    (insert (concat "* " (format-time-string "[%Y-%m-%d %a]\n"))))
+  (setq org-hide-emphasis-markers t)
+;
+  (font-lock-add-keywords 'org-mode
+                          '(("^ *\\([-]\\) "
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))
+                            ("^\\*+ \\(TODO\\) "
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "✅️"))))
+                            ("^\\*+ \\(DONE\\) "
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "✔︎"))))))
 
   (defun my/affe-grep-org ()
     "search in org directory"
     (interactive)
     (let ((initial-directory org-directory)
           (initial-input "^\\*+ "))
+      (consult-ripgrep initial-directory initial-input)))
+
+  (defun my/affe-grep-org-all ()
+    "search in org directory"
+    (interactive)
+    (let ((initial-directory org-directory)
+          (initial-input ""))
       (consult-ripgrep initial-directory initial-input)))
 
   (defun my/pull-request-path (tag)
@@ -271,25 +272,35 @@
       (concat "git/" project "/" repository "/pullRequests/" pr-number "/diff")))
 
   :bind
-  ("H-u" . my/affe-grep-org)
+  ("H-u" . my/affe-grep-org-all)
+  ("H-y" . my/affe-grep-org)
   ("H-a" . org-agenda)
-  ("H-@" . my/org-insert-today-header)
-  ("H-^" . my/org-capture-todo)
   (:org-mode-map
               ("H-o" . consult-org-heading))
 
   :custom-face
-  (org-block-begin-line . '((t (:foreground "#900000" :background "#2c2c22"))))
-  (org-block-end-line   . '((t (:foreground "#900000" :background "#2c2c22"))))
-  (org-block            . '((t (:background "#2c2c22"))))
-  (org-level-1 . '((t (:foreground "green" :background "#183818" :bold t :height 1.15))))
-  (org-level-2 . '((t (:foreground "green" :background "#182818" :bold t :height 1.10))))
-  (org-level-3 . '((t (:foreground "green" :background "#182818" :bold t :height 1.05))))
-  (org-level-4 . '((t (:foreground "green" :background "#182818" :bold t :height 1.00))))
-  (org-level-5 . '((t (:foreground "green" :background "#182818" :bold t :height 1.00))))
+  (org-block-begin-line . '((t (:foreground "gray" :background "#1c1c1c" :height 0.66))))
+  (org-block-end-line   . '((t (:foreground "gray" :background "#222222" :height 0.66))))
+  (org-block            . '((t (:background "#22222c"))))
+  (org-level-1 . '((t (:foreground "#c0e020" :bold t :height 1.15))))
+  (org-level-2 . '((t (:foreground "#c0e020" :bold t :height 1.10))))
+  (org-level-3 . '((t (:foreground "#c0e020" :bold t :height 1.05))))
+  (org-level-4 . '((t (:foreground "#c0e020" :bold t :height 1.00))))
+  (org-level-5 . '((t (:foreground "#c0e020" :bold t :height 1.00))))
   (org-drawer          . '((t (:foreground "gray" :height 0.66))))
   (org-special-keyword . '((t (:foreground "gray" :height 0.66))))
   (org-property-value  . '((t (:foreground "gray" :height 0.66)))))
+
+
+(leaf org-cua-dwim :ensure t
+    :hook
+    (org-mode-hook . org-cua-dwim-turn-on-org-cua-mode-partial-support))
+
+
+(leaf org-bullets :ensure t
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
 
 (leaf ob-js
   :require org
