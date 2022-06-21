@@ -344,6 +344,11 @@
   (set-face-background 'show-paren-match "#c0c000"))
 
 
+(leaf which-key :ensure t
+  :hook
+  (after-init-hook . which-key-mode))
+
+
 (leaf flycheck :ensure t
   :hook (prog-mode-hook . flycheck-mode))
 
