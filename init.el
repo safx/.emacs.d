@@ -1,3 +1,6 @@
+;;; init.el -- init
+;;; Commentary:
+;;; Code:
 ;; <leaf-install-code>
 (eval-and-compile
   (customize-set-variable
@@ -207,13 +210,6 @@
 ;;; end no-require scripts
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(leaf *redo
-  :load-path "~/.emacs.d/lisp"
-  :bind
-  ("C-\\" . redo))
-
-;;; end local scriptsa
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (leaf *server
   :hook (emacs-startup-hook . server-start))
@@ -223,6 +219,18 @@
   :bind
   (:isearch-mode-map
         ("C-h" . isearch-delete-char)))
+
+
+(leaf undo-fu :ensure t
+  :bind
+  ("C-\\" . undo-fu-only-undo)
+  ("C-S-\\" . undo-fu-only-redo))
+
+
+(leaf undo-fu-session :ensure t
+  :config
+  (add-hook 'after-init-hook
+            (lambda () (global-undo-fu-session-mode))))
 
 
 (leaf org

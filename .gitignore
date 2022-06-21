@@ -19,6 +19,8 @@ auto-save-list/
 server/
 url/
 
+undo-fu-session/
+multisession/
 transient/
 ensime/
 recentf
