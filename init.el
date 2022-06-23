@@ -266,6 +266,11 @@
           (initial-input "^\\*+ "))
       (consult-ripgrep initial-directory initial-input)))
 
+  (defun my/html2org-clipboard ()
+    (interactive)
+    (kill-new (shell-command-to-string "osascript -e 'the clipboard as \"HTML\"' | perl -ne 'print chr foreach unpack(\"C*\",pack(\"H*\",substr($_,11,-3)))' | pandoc -f html -t json | pandoc -f json -t org --wrap=none"))
+    (yank))
+
   (defun my/affe-grep-org-all ()
     "search in org directory"
     (interactive)
@@ -280,6 +285,7 @@
       (concat "git/" project "/" repository "/pullRequests/" pr-number "/diff")))
 
   :bind
+  ("C-M-y" . my/html2org-clipboard)
   ("H-u" . my/affe-grep-org-all)
   ("H-y" . my/affe-grep-org)
   ("H-a" . org-agenda)
@@ -308,6 +314,80 @@
 (leaf org-bullets :ensure t
     :config
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+
+(leaf org-download :ensure t
+  :config
+  (setq org-download-image-dir (file-truename "~/Documents/org/images"))
+  (add-hook 'org-mode-hook (lambda () (org-download-enable))))
+
+
+(leaf org-roam :ensure t
+  :require org
+
+  :config
+  (setq org-roam-directory (file-truename "~/Documents/org/roam"))
+  (setq org-roam-node-display-template
+        (concat "${title:70}"(propertize "${tags:30}" 'face 'org-tag) "${file:48}"))
+  (setq org-roam-capture-templates
+        '(("d" "default" plain "* ${title}\n\n%?"
+           :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t)
+          ("l" "library" plain "* ${title}\n\n- {licence} / %^{Lauguage} / ☆ {star}\n- web page: {Web-Page}\n- repository: {Repository}\n%?"
+           :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t)))
+  (setq org-roam-dailies-capture-templates
+        '(("d" "default" entry "* %?"
+           :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))
+          ("t" "todo" entry "* TODO %?"
+           :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
+  ;:custom
+  ;(org-roam-complete-everywhere . t)
+
+  :config
+  (defun my/org-roam-dailies-goto-today nil
+    (interactive)
+    (org-roam-dailies-goto-today "d"))
+
+  :bind
+  ([f9] . org-roam-buffer-toggle)
+  ([f11] . org-roam-node-find)
+  ([f12] . my/org-roam-dailies-goto-today)
+  ([S-f12] . org-roam-dailies-goto-date)
+  ("H-i" . org-roam-node-insert)
+  ("H-[" . org-roam-dailies-goto-previous-note)
+  ("H-]" . org-roam-dailies-goto-next-note)
+  ("H-`" . org-roam-dailies-capture-today)
+  ("H-@" . org-roam-capture)
+
+  :hook
+  (after-init-hook . org-roam-mode)
+  (after-init-hook . org-roam-db-autosync-mode)
+)
+
+
+(leaf *consult-notes
+  :require org
+  :el-get  (consult-notes :type github :pkgname "safx/consult-notes"
+                     :branch "hide-backup-files")
+  :commands (consult-notes
+             consult-notes-search-all
+             consult-notes-org-roam-find-node
+             consult-notes-org-roam-find-node-relation)
+  :custom
+  (consult-notes-data-dirs . '(("All" ?a "~/Documents/org")
+                               ("Roam" ?r "~/Documents/org/roam")
+                               ("Daily" ?d "~/Documents/org/roam/daily")))
+
+  :bind
+  ([f10] . consult-notes)
+
+  :config
+  (setq consult-notes-sources '(consult-notes--data-dirs
+                                consult-notes--org-roam-nodes
+                                consult-notes--org-roam-refs
+                                my-other-notes--source))
+  (consult-notes-org-roam-mode)) ;; Set org-roam integration
 
 
 (leaf ob-js

@@ -5,6 +5,8 @@ local-settings.el
 eln-cache/
 .cache/
 .lsp-session-v1
+
+org-roam.db
 .org-id-locations
 
 ac-comphist.dat
