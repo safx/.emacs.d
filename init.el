@@ -257,7 +257,11 @@
                             ("^\\*+ \\(TODO\\) "
                              (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "✅️"))))
                             ("^\\*+ \\(DONE\\) "
-                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "✔︎"))))))
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "✔︎"))))
+                            ("^\\(#\\+[Bb][Ee][Gg][Ii][Nn]_[sS][Rr][Cc] *\\)"
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) ""))))
+                            ("^\\(#\\+[Ee][Nn][Dd]_[Ss][Rr][Cc]\\)"
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) ""))))))
 
   (defun my/affe-grep-org ()
     "search in org directory"
@@ -293,9 +297,9 @@
               ("H-o" . consult-org-heading))
 
   :custom-face
-  (org-block-begin-line . '((t (:foreground "gray" :background "#1c1c1c" :height 0.66))))
-  (org-block-end-line   . '((t (:foreground "gray" :background "#222222" :height 0.66))))
-  (org-block            . '((t (:background "#22222c"))))
+  (org-block-begin-line . '((t (:foreground "green" :background "#141418" :height 0.80))))
+  (org-block-end-line   . '((t (:foreground "green" :background "#141418" :height 0.80))))
+  (org-block            . '((t (:background "#141418"))))
   (org-level-1 . '((t (:foreground "#c0e020" :bold t :height 1.15))))
   (org-level-2 . '((t (:foreground "#c0e020" :bold t :height 1.10))))
   (org-level-3 . '((t (:foreground "#c0e020" :bold t :height 1.05))))
