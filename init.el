@@ -310,14 +310,14 @@
   (org-property-value  . '((t (:foreground "gray" :height 0.66)))))
 
 
-(leaf org-cua-dwim :ensure t
-    :hook
-    (org-mode-hook . org-cua-dwim-turn-on-org-cua-mode-partial-support))
+(leaf org-modern-indent
+  :hook
+  (org-indent-mode . org-modern-indent-mode))
 
 
 (leaf org-bullets :ensure t
-    :config
-    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 
 (leaf org-download :ensure t
