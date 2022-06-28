@@ -342,7 +342,7 @@
            :unnarrowed t)))
   (setq org-roam-dailies-capture-templates
         '(("d" "default" entry "* %?"
-           :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))
+           :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d %a>\n"))
           ("t" "todo" entry "* TODO %?"
            :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
   ;:custom
