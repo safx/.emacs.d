@@ -315,6 +315,11 @@
   (org-indent-mode . org-modern-indent-mode))
 
 
+(leaf org-autolist :ensure t
+  :hook
+  (org-mode-hook . org-autolist-mode))
+
+
 (leaf org-bullets :ensure t
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
