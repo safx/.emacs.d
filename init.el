@@ -358,11 +358,16 @@
     (interactive)
     (org-roam-dailies-goto-today "d"))
 
+  (defun my/org-roam-dailies-goto-date nil
+    (interactive)
+    (org-roam-dailies-goto-date nil "d"))
+
+
   :bind
   ([f9] . org-roam-buffer-toggle)
   ([f11] . org-roam-node-find)
   ([f12] . my/org-roam-dailies-goto-today)
-  ([S-f12] . org-roam-dailies-goto-date)
+  ([S-f12] . my/org-roam-dailies-goto-date)
   ("H-i" . org-roam-node-insert)
   ("H-[" . org-roam-dailies-goto-previous-note)
   ("H-]" . org-roam-dailies-goto-next-note)
