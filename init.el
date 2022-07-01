@@ -246,11 +246,19 @@
   :config
   (setq org-ellipsis " ▾")
   (setq org-directory "~/Documents/org")
+  (setq org-agenda-span 'day)
   (setq org-agenda-files (list "~/Documents/org/cal"))
   (setq org-src-fontify-natively t)
   (setq org-special-ctrl-a/e t)
   (setq org-hide-leading-stars t)
   (setq org-hide-emphasis-markers t)
+  (setq org-tag-alist
+        '(("meeting" . ?m)
+          ("tips" . ?t)
+          ("mobile" . ?x)
+          ("blog" . ?b)
+          ("misc" . ?z)
+  ))
 
   (defun my/affe-grep-org ()
     "search in org directory"
@@ -287,8 +295,8 @@
 
   :custom-face
   (org-checkbox . '((t (:foreground "#b0c020" :height 1.5))))
-  (org-block-begin-line . '((t (:foreground "green" :background "#141418" :height 0.80))))
-  (org-block-end-line   . '((t (:foreground "green" :background "#141418" :height 0.80))))
+  (org-block-begin-line . '((t (:foreground "green" :background "#101014" :height 0.80))))
+  (org-block-end-line   . '((t (:foreground "green" :background "#101014" :height 0.80))))
   (org-block            . '((t (:background "#141418"))))
   (org-level-1 . '((t (:foreground "#c0e020" :bold t :height 1.15))))
   (org-level-2 . '((t (:foreground "#c0e020" :bold t :height 1.10))))
@@ -307,19 +315,29 @@
 
 
 (leaf org-autolist :ensure t
+  :require org
   :hook
   (org-mode-hook . org-autolist-mode))
 
 
 (leaf org-bullets :ensure t
+  :require org
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 
 (leaf org-download :ensure t
+  :require org
   :config
-  (setq org-download-image-dir (file-truename "~/Documents/org/images"))
+  (setq org-download-image-dir (file-truename "~/Documents/org/downloads"))
   (add-hook 'org-mode-hook (lambda () (org-download-enable))))
+
+
+(leaf org-super-agenda :ensure t
+  :require org
+  :config
+  (add-hook 'org-mode-hook
+            (lambda () (org-super-agenda-mode 1))))
 
 
 (leaf org-roam :ensure t
@@ -332,6 +350,9 @@
   (setq org-roam-capture-templates
         '(("d" "default" plain "* ${title}\n\n%?"
            :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t)
+          ("b" "blog" plain "* ${title}\n\n%?"
+           :target (file+head "blog/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
            :unnarrowed t)
           ("l" "library" plain "* ${title}\n\n- {licence} / %^{Lauguage} / ☆ {star}\n- web page: {Web-Page}\n- repository: {Repository}\n%?"
            :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
