@@ -374,6 +374,8 @@
     (interactive)
     (org-roam-dailies-goto-date nil "d"))
 
+  (defun my/hide-drawers nil
+    (org-cycle-hide-drawers 'hide))
 
   :bind
   ([f9] . org-roam-buffer-toggle)
@@ -389,7 +391,7 @@
   :hook
   (after-init-hook . org-roam-mode)
   (after-init-hook . org-roam-db-autosync-mode)
-)
+  (org-roam-find-file-hook . my/hide-drawers))
 
 
 (leaf *consult-notes
