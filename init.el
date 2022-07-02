@@ -335,14 +335,12 @@
 
 (leaf org-modern :ensure t
   :require org
+  :custom
+  (org-modern-list . '((?+ . "◦")
+                       (?- . "•")
+                       (?* . "✳")))
   :config
   (global-org-modern-mode))
-
-
-(leaf org-bullets :ensure t
-  :require org
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 
 (leaf org-autolist :ensure t
