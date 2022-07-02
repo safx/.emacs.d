@@ -1,6 +1,7 @@
 ;;; init.el -- init
 ;;; Commentary:
 ;;; Code:
+
 ;; <leaf-install-code>
 (eval-and-compile
   (customize-set-variable
@@ -107,7 +108,7 @@
   ("C-x q" . my/toggle-truncate-lines)
   ("C-k" . my/kill-line-for-readonly)
   (:minibuffer-local-completion-map
-         ("C-w" . backward-kill-word)))
+   ("C-w" . backward-kill-word)))
 
 
 ;;; end leaf emacs
@@ -116,38 +117,38 @@
 (leaf *appearance-macos
   :if (and (eq system-type 'darwin) window-system)
   :config
-    (let* ((size 14)
-           (jpfont "Hiragino Maru Gothic ProN")
-           (asciifont "Menlo")
-           (h (* size 10)))
-      (set-face-attribute 'default nil :family asciifont :height h)
-      (set-fontset-font t 'katakana-jisx0201 jpfont)
-      (set-fontset-font t 'japanese-jisx0208 jpfont)
-      (set-fontset-font t 'japanese-jisx0212 jpfont)
-      (set-fontset-font t 'japanese-jisx0213-1 jpfont)
-      (set-fontset-font t 'japanese-jisx0213-2 jpfont)
-      (set-fontset-font t '(#x0080 . #x024F) asciifont))
-    (setq face-font-rescale-alist
-          '(("^-apple-hiragino.*" . 1.2)
-            (".*-Hiragino Maru Gothic ProN-.*" . 1.2)
-            (".*osaka-bold.*" . 1.2)
-            (".*osaka-medium.*" . 1.2)
-            (".*courier-bold-.*-mac-roman" . 1.0)
-            (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
-            (".*monaco-bold-.*-mac-roman" . 0.9)
-            ("-cdac$" . 1.3)))
+  (let* ((size 14)
+         (jpfont "Hiragino Maru Gothic ProN")
+         (asciifont "Menlo")
+         (h (* size 10)))
+    (set-face-attribute 'default nil :family asciifont :height h)
+    (set-fontset-font t 'katakana-jisx0201 jpfont)
+    (set-fontset-font t 'japanese-jisx0208 jpfont)
+    (set-fontset-font t 'japanese-jisx0212 jpfont)
+    (set-fontset-font t 'japanese-jisx0213-1 jpfont)
+    (set-fontset-font t 'japanese-jisx0213-2 jpfont)
+    (set-fontset-font t '(#x0080 . #x024F) asciifont))
+  (setq face-font-rescale-alist
+        '(("^-apple-hiragino.*" . 1.2)
+          (".*-Hiragino Maru Gothic ProN-.*" . 1.2)
+          (".*osaka-bold.*" . 1.2)
+          (".*osaka-medium.*" . 1.2)
+          (".*courier-bold-.*-mac-roman" . 1.0)
+          (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
+          (".*monaco-bold-.*-mac-roman" . 0.9)
+          ("-cdac$" . 1.3)))
 
-    (setq frame-inherited-parameters '(font tool-bar-lines))
+  (setq frame-inherited-parameters '(font tool-bar-lines))
 
-    (setq initial-frame-alist
-          (append initial-frame-alist
-                  '((ns-appearance . dark)
-                    (ns-transparent-titlebar . t)
-                    )))
+  (setq initial-frame-alist
+        (append initial-frame-alist
+                '((ns-appearance . dark)
+                  (ns-transparent-titlebar . t)
+                  )))
 
-    ;; mouse setting
-    (setq mouse-wheel-tilt-scroll t)
-    (setq mouse-wheel-flip-direction t))
+  ;; mouse setting
+  (setq mouse-wheel-tilt-scroll t)
+  (setq mouse-wheel-flip-direction t))
 
 
 (leaf *appearance-macos
@@ -218,7 +219,31 @@
 (leaf *isearch
   :bind
   (:isearch-mode-map
-        ("C-h" . isearch-delete-char)))
+   ("C-h" . isearch-delete-char)))
+
+
+(leaf *org-python
+  :require org
+  :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((python . t))))
+
+
+(leaf *recentf
+  :custom
+  (recentf-auto-cleanup . 99)
+  :config
+  (recentf-mode))
+
+
+(leaf *savehist
+  :config
+  (savehist-mode))
+
+
+;;; end built-in packages
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 (leaf undo-fu :ensure t
@@ -258,7 +283,7 @@
           ("mobile" . ?x)
           ("blog" . ?b)
           ("misc" . ?z)
-  ))
+          ))
 
   (defun my/affe-grep-org ()
     "search in org directory"
@@ -291,7 +316,7 @@
   ("H-y" . my/affe-grep-org)
   ("H-a" . org-agenda)
   (:org-mode-map
-              ("H-o" . consult-org-heading))
+   ("H-o" . consult-org-heading))
 
   :custom-face
   (org-checkbox . '((t (:foreground "#b0c020" :height 1.5))))
@@ -314,16 +339,16 @@
   (global-org-modern-mode))
 
 
-(leaf org-autolist :ensure t
-  :require org
-  :hook
-  (org-mode-hook . org-autolist-mode))
-
-
 (leaf org-bullets :ensure t
   :require org
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+
+(leaf org-autolist :ensure t
+  :require org
+  :hook
+  (org-mode-hook . org-autolist-mode))
 
 
 (leaf org-download :ensure t
@@ -362,8 +387,6 @@
            :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d %a>\n"))
           ("t" "todo" entry "* TODO %?"
            :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
-  ;:custom
-  ;(org-roam-complete-everywhere . t)
 
   :config
   (defun my/org-roam-dailies-goto-today nil
@@ -397,7 +420,7 @@
 (leaf *consult-notes
   :require org
   :el-get  (consult-notes :type github :pkgname "safx/consult-notes"
-                     :branch "hide-backup-files")
+                          :branch "hide-backup-files")
   :commands (consult-notes
              consult-notes-search-all
              consult-notes-org-roam-find-node
@@ -425,28 +448,6 @@
   (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages)
   (add-to-list 'org-babel-tangle-lang-exts '("js" . "js")))
 
-
-(leaf *org-python
-  :require org
-  :config
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((python . t))))
-
-
-(leaf *recentf
-  :custom
-  (recentf-auto-cleanup . 99)
-  :config
-  (recentf-mode))
-
-
-(leaf *savehist
-  :config
-  (savehist-mode))
-
-;;; end built-in packages
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (leaf doom-themes :ensure t
   :config
@@ -490,7 +491,7 @@
   (setq company-begin-commands '(self-insert-command))
 
   :bind (:company-active-map
-              ("C-h" . nil))
+         ("C-h" . nil))
 
   :custom-face
   (company-preview . '((t (:foreground "darkgray" :underline t))))
@@ -498,11 +499,11 @@
   (company-tooltip . '((t (:background "lightgray" :foreground "black"))))
   (company-tooltip-selection . '((t (:background "steelblue" :foreground "white"))))
   (company-tooltip-common . '((((type x)) (:inherit company-tooltip :weight bold))
-                           (t (:inherit company-tooltip))))
+                              (t (:inherit company-tooltip))))
   (company-scrollbar-fg . '((t (:background "gray64"))))
   (company-scrollbar-bg . '((t (:background "white"))))
   (company-tooltip-common-selection . '((((type x)) (:inherit company-tooltip-selection :weight bold))
-                                     (t (:inherit company-tooltip-selection)))))
+                                        (t (:inherit company-tooltip-selection)))))
 
 
 (leaf lsp-mode :ensure t
@@ -515,8 +516,8 @@
 
 (leaf anzu :ensure t
   :bind (:esc-map
-              ("%" . anzu-query-replace)
-              ("&" . query-replace-regexp)))
+         ("%" . anzu-query-replace)
+         ("&" . query-replace-regexp)))
 
 
 (leaf beacon :ensure t
@@ -557,9 +558,9 @@
   ("C-;" . iedit-mode)
 
   :bind (:iedit-mode-keymap
-              ("M-p" . iedit-prev-occurrence)
-              ("M-n" . iedit-next-occurrence)
-              ("C-h" . backward-delete-char-untabify)))
+         ("M-p" . iedit-prev-occurrence)
+         ("M-n" . iedit-next-occurrence)
+         ("C-h" . backward-delete-char-untabify)))
 
 
 (leaf magit :ensure t
@@ -572,9 +573,9 @@
   (setq vertico-count 40)
   (setq vertico-cycle t)
   (define-key vertico-map (kbd "C-w") 'backward-kill-word))
-  ;; It does not working correctly
-  ;:bind (:vertico-map
-  ;       ("C-w" . backward-kill-word)))
+;; It does not working correctly
+                                        ;:bind (:vertico-map
+                                        ;       ("C-w" . backward-kill-word)))
 
 (leaf orderless :ensure t
   :init
@@ -641,7 +642,7 @@
 
 (leaf embark-consult :ensure t
   :after (embark consult)
-  ;:demand t ; only necessary if you have the hook below
+                                        ;:demand t ; only necessary if you have the hook below
   ;; if you want to have consult previews as you move around an
   ;; auto-updating embark collect buffer
   :hook
