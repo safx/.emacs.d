@@ -349,6 +349,12 @@
   (org-mode-hook . org-autolist-mode))
 
 
+(leaf org-preview-html :ensure t
+  :require org
+  :config
+  (setq org-preview-html-viewer 'xwidget))
+
+
 (leaf org-download :ensure t
   :require org
   :config
@@ -413,6 +419,12 @@
   (after-init-hook . org-roam-mode)
   (after-init-hook . org-roam-db-autosync-mode)
   (org-roam-find-file-hook . my/hide-drawers))
+
+
+(leaf org-roam-ui :ensure t
+  :require org org-roam
+  :config
+  (setq org-roam-ui-follow nil))
 
 
 (leaf *consult-notes
