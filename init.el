@@ -272,7 +272,7 @@
   (setq org-ellipsis " ▾")
   (setq org-directory "~/Documents/org")
   (setq org-agenda-span 'day)
-  (setq org-agenda-files (list "~/Documents/org/cal"))
+  (setq org-agenda-files (list "~/Documents/org/cal" "~/Documents/org/roam/daily/"))
   (setq org-src-fontify-natively t)
   (setq org-special-ctrl-a/e t)
   (setq org-hide-leading-stars t)
