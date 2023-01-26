@@ -254,8 +254,8 @@
 
 (leaf undo-fu-session :ensure t
   :config
-  (add-hook 'after-init-hook
-            (lambda () (global-undo-fu-session-mode))))
+     (add-hook 'after-init-hook
+            (lambda () (undo-fu-session-global-mode))))
 
 
 (leaf org
