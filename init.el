@@ -264,7 +264,7 @@
   (org-agenda-format-date . "%Y-%m-%d %a")
   (org-agenda-prefix-format
    . '((agenda . " ◇ %?-12t % s")
-       (todo   . " ◇ ")
+       (todo   . " · ")
        (tags   . " ◇ ")
        (search . " ◇ ")))
 
@@ -285,17 +285,17 @@
           ("misc" . ?z)
           ))
 
+  (defun my/html2org-clipboard ()
+    (interactive)
+    (kill-new (shell-command-to-string "osascript -e 'the clipboard as \"HTML\"' | perl -ne 'print chr foreach unpack(\"C*\",pack(\"H*\",substr($_,11,-3)))' | pandoc -f html -t json | pandoc -f json -t org --wrap=none"))
+    (yank))
+
   (defun my/affe-grep-org ()
     "search in org directory"
     (interactive)
     (let ((initial-directory org-directory)
           (initial-input "^\\*+ "))
       (consult-ripgrep initial-directory initial-input)))
-
-  (defun my/html2org-clipboard ()
-    (interactive)
-    (kill-new (shell-command-to-string "osascript -e 'the clipboard as \"HTML\"' | perl -ne 'print chr foreach unpack(\"C*\",pack(\"H*\",substr($_,11,-3)))' | pandoc -f html -t json | pandoc -f json -t org --wrap=none"))
-    (yank))
 
   (defun my/affe-grep-org-all ()
     "search in org directory"
@@ -312,8 +312,8 @@
 
   :bind
   ("C-M-y" . my/html2org-clipboard)
-  ("H-u" . my/affe-grep-org-all)
-  ("H-y" . my/affe-grep-org)
+  ("H-0" . my/affe-grep-org-all)
+  ("H-9" . my/affe-grep-org)
   ("H-a" . org-agenda)
   (:org-mode-map
    ("H-o" . consult-org-heading))
@@ -457,6 +457,13 @@
   (add-to-list 'org-babel-load-languages '(js . t))
   (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages)
   (add-to-list 'org-babel-tangle-lang-exts '("js" . "js")))
+
+
+(leaf ob-typescript :ensure t
+  :require org
+  :config
+  (add-to-list 'org-babel-load-languages '(typescript . t))
+  (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages))
 
 
 (leaf doom-themes :ensure t
