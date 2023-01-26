@@ -701,17 +701,6 @@
   (prog-mode-hook . highlight-indent-guides-mode))
 
 
-(leaf origami :ensure t)
-(leaf tree-sitter :ensure t)
-(leaf tree-sitter-langs :ensure t)
-(leaf *tsi
-  :el-get "orzechowskid/tsi.el")
-(leaf *tsx-mode
-  :require origami tree-sitter tree-sitter-langs tsi
-  :el-get "orzechowskid/tsx-mode.el"
-  :config
-  (add-to-list 'auto-mode-alist '("\\.tsx$" . tsx-mode)))
-
 ;;; other modes
 (leaf rjsx-mode :ensure t)
 (leaf yaml-mode :ensure t)
@@ -719,6 +708,8 @@
 (leaf dockerfile-mode :ensure t)
 (leaf docker-compose-mode :ensure t)
 (leaf toml-mode :ensure t)
+(leaf typescript-mode :ensure t)
+(leaf haxe-mode :ensure t)
 
 
 (leaf rust-mode :ensure t
