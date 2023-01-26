@@ -2,32 +2,10 @@
 ;;; Commentary:
 ;;; Code:
 
-;; <leaf-install-code>
-(eval-and-compile
-  (customize-set-variable
-   'package-archives '(("org" . "https://orgmode.org/elpa/")
-                       ("melpa" . "https://melpa.org/packages/")
-                       ("gnu" . "https://elpa.gnu.org/packages/")))
-  (setq package-native-compile t)
-  (setq package-enable-at-startup nil) ; for slightly faster startup
-  (package-initialize t)
-  (unless (package-installed-p 'leaf)
-    (package-refresh-contents)
-    (package-install 'leaf))
+(eval-when-compile
+  (require 'use-package))
 
-  (leaf leaf-keywords :ensure t
-    :init
-    ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
-    (leaf hydra :ensure nil)
-    (leaf el-get :ensure t)
-    (leaf blackout :ensure nil)
-
-    :config
-    (leaf-keywords-init)))
-;; </leaf-install-code>
-
-
-(leaf *emacs
+(use-package *emacs :no-require
   :init
   ;; langage settings
   (setenv "LANG" "C")
@@ -94,27 +72,27 @@
 
   ;; common key binds
   :bind
-  ("¥" . "\\")
-  ("C-M-g" . top-level)
-  ("C-_" . undo)
-  ("C-z" . call-last-kbd-macro)
-  ("C-h" . backward-delete-char-untabify)
-  ("M-h" . backward-kill-word)
-  ("M-SPC" . cycle-spacing)
-  ("C-<return>" . cua-rectangle-mark-mode)
-  ("M-g" . goto-line)
-  ("M-o" . dabbrev-expand)
-  ("C-o" . other-window)
-  ("C-x q" . my/toggle-truncate-lines)
-  ("C-k" . my/kill-line-for-readonly)
-  (:minibuffer-local-completion-map
-   ("C-w" . backward-kill-word)))
+  (("¥" . "\\")
+   ("C-M-g" . top-level)
+   ("C-_" . undo)
+   ("C-z" . call-last-kbd-macro)
+   ("C-h" . backward-delete-char-untabify)
+   ("M-h" . backward-kill-word)
+   ("M-SPC" . cycle-spacing)
+   ("C-<return>" . cua-rectangle-mark-mode)
+   ("M-g" . goto-line)
+   ("M-o" . dabbrev-expand)
+   ("C-o" . other-window)
+   ("C-x q" . my/toggle-truncate-lines)
+   ("C-k" . my/kill-line-for-readonly)
+   :map minibuffer-local-completion-map
+    ("C-w" . backward-kill-word)))
 
 
-;;; end leaf emacs
+;;; end *emacs
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(leaf *appearance-macos
+(use-package *appearance-macos :no-require
   :if (and (eq system-type 'darwin) window-system)
   :config
   (let* ((size 14)
@@ -151,22 +129,22 @@
   (setq mouse-wheel-flip-direction t))
 
 
-(leaf *appearance-macos
+(use-package *appearance-macos :no-require
   :if (eq system-type 'darwin)
   :init
   (setq mac-option-modifier 'meta)
   (setq mac-command-modifier 'hyper)
   :bind
-  ("H-v" . yank)
-  ("H-c" . kill-ring-save)
-  ("H-l" . goto-line)
-  ("H-z" . undo)
-  ("H-r" . jump-to-register)
-  ("H-b" . bookmark-jump)
-  ("H-C-b" . bookmark-set))
+  (("H-v" . yank)
+   ("H-c" . kill-ring-save)
+   ("H-l" . goto-line)
+   ("H-z" . undo)
+   ("H-r" . jump-to-register)
+   ("H-b" . bookmark-jump)
+   ("H-C-b" . bookmark-set)))
 
 
-(leaf *appearance-windows
+(use-package *appearance-windows :no-require
   :if (and (eq system-type 'windows-nt) window-system)
   :config
   (set-face-attribute 'default nil
@@ -179,7 +157,7 @@
   (setq face-font-rescale-alist '((".*M\\+.*" . 1.3))))
 
 
-(leaf *delete-trailing-whitespace
+(use-package *delete-trailing-whitespace :no-require
   :config
   (defvar my/current-cleanup-state "")
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -202,7 +180,7 @@
   (global-set-key (kbd "C-x w") 'my/toggle-delete-trailing-whitespaces))
 
 
-(leaf *load-local-files
+(use-package *load-local-files :no-require
   :config
   (let ((file "~/.emacs.d/local-settings.el"))
     (when (file-exists-p file)
@@ -212,32 +190,32 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(leaf *server
+(use-package *server :no-require
   :hook (emacs-startup-hook . server-start))
 
 
-(leaf *isearch
+(use-package *isearch :no-require
   :bind
-  (:isearch-mode-map
+  (:map isearch-mode-map
    ("C-h" . isearch-delete-char)))
 
 
-(leaf *org-python
-  :require org
+(use-package *org-python :no-require
+  :after org
   :config
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((python . t))))
 
 
-(leaf *recentf
+(use-package *recentf :no-require
   :custom
-  (recentf-auto-cleanup . 99)
+  (recentf-auto-cleanup 99)
   :config
   (recentf-mode))
 
 
-(leaf *savehist
+(use-package *savehist :no-require
   :config
   (savehist-mode))
 
@@ -246,27 +224,29 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(leaf undo-fu :ensure t
+(use-package undo-fu :ensure t
   :bind
-  ("C-\\" . undo-fu-only-undo)
-  ("C-S-\\" . undo-fu-only-redo))
+  (("C-\\" . undo-fu-only-undo)
+   ("C-S-\\" . undo-fu-only-redo)))
 
 
-(leaf undo-fu-session :ensure t
+(use-package undo-fu-session :ensure t
   :config
      (add-hook 'after-init-hook
             (lambda () (undo-fu-session-global-mode))))
 
 
-(leaf org
+(use-package org
   :custom
-  (org-startup-indented . t)
-  (org-agenda-format-date . "%Y-%m-%d %a")
+  (org-startup-indented t)
+  (org-agenda-format-date "%Y-%m-%d %a")
   (org-agenda-prefix-format
-   . '((agenda . " ◇ %?-12t % s")
-       (todo   . " · ")
-       (tags   . " ◇ ")
-       (search . " ◇ ")))
+   '((agenda . " ◇ %?-12t % s")
+     (todo   . " · ")
+     (tags   . " ◇ ")
+     (search . " ◇ ")))
+  (org-hide-block-startup t)
+  (org-startup-folded "fold")
 
   :config
   (setq org-ellipsis " ▾")
@@ -311,67 +291,66 @@
       (concat "git/" project "/" repository "/pullRequests/" pr-number "/diff")))
 
   :bind
-  ("C-M-y" . my/html2org-clipboard)
-  ("H-0" . my/affe-grep-org-all)
-  ("H-9" . my/affe-grep-org)
-  ("H-a" . org-agenda)
-  (:org-mode-map
-   ("H-o" . consult-org-heading))
+  (("C-M-y" . my/html2org-clipboard)
+   ("H-0" . my/affe-grep-org-all)
+   ("H-9" . my/affe-grep-org)
+   ("H-a" . org-agenda)
+   (:map org-mode-map
+    ("H-o" . consult-org-heading)))
 
   :custom-face
-  (org-checkbox . '((t (:foreground "#b0c020" :height 1.5))))
-  (org-block-begin-line . '((t (:foreground "green" :background "#101014" :height 0.80))))
-  (org-block-end-line   . '((t (:foreground "green" :background "#101014" :height 0.80))))
-  (org-block            . '((t (:background "#141418"))))
-  (org-level-1 . '((t (:foreground "#c0e020" :bold t :height 1.15))))
-  (org-level-2 . '((t (:foreground "#c0e020" :bold t :height 1.10))))
-  (org-level-3 . '((t (:foreground "#c0e020" :bold t :height 1.05))))
-  (org-level-4 . '((t (:foreground "#c0e020" :bold t :height 1.00))))
-  (org-level-5 . '((t (:foreground "#c0e020" :bold t :height 1.00))))
-  (org-drawer          . '((t (:foreground "gray" :height 0.66))))
-  (org-special-keyword . '((t (:foreground "gray" :height 0.66))))
-  (org-property-value  . '((t (:foreground "gray" :height 0.66)))))
+  (org-checkbox ((t (:foreground "#b0c020" :height 1.5))))
+  (org-block-begin-line ((t (:foreground "green" :background "#101014" :height 0.80))))
+  (org-block-end-line   ((t (:foreground "green" :background "#101014" :height 0.80))))
+  (org-block            ((t (:background "#141418"))))
+  (org-level-1 ((t (:foreground "#c0e020" :bold t :height 1.15))))
+  (org-level-2 ((t (:foreground "#c0e020" :bold t :height 1.10))))
+  (org-level-3 ((t (:foreground "#c0e020" :bold t :height 1.05))))
+  (org-level-4 ((t (:foreground "#c0e020" :bold t :height 1.00))))
+  (org-level-5 ((t (:foreground "#c0e020" :bold t :height 1.00))))
+  (org-drawer          ((t (:foreground "gray" :height 0.66))))
+  (org-special-keyword ((t (:foreground "gray" :height 0.66))))
+  (org-property-value  ((t (:foreground "gray" :height 0.66)))))
 
 
-(leaf org-modern :ensure t
-  :require org
+(use-package org-modern :ensure t
+  :after org
   :custom
-  (org-modern-list . '((?+ . "◦")
-                       (?- . "•")
-                       (?* . "✳")))
+  (org-modern-list '((?+ . "◦")
+                     (?- . "•")
+                     (?* . "✳")))
   :config
   (global-org-modern-mode))
 
 
-(leaf org-autolist :ensure t
-  :require org
+(use-package org-autolist :ensure t
+  :after org
   :hook
   (org-mode-hook . org-autolist-mode))
 
 
-(leaf org-preview-html :ensure t
-  :require org
+(use-package org-preview-html :ensure t
+  :after org
   :config
   (setq org-preview-html-viewer 'xwidget))
 
 
-(leaf org-download :ensure t
-  :require org
+(use-package org-download :ensure t
+  :after org
   :config
   (setq org-download-image-dir (file-truename "~/Documents/org/downloads"))
   (add-hook 'org-mode-hook (lambda () (org-download-enable))))
 
 
-(leaf org-super-agenda :ensure t
-  :require org
+(use-package org-super-agenda :ensure t
+  :after org
   :config
   (add-hook 'org-mode-hook
             (lambda () (org-super-agenda-mode 1))))
 
 
-(leaf org-roam :ensure t
-  :require org
-
+(use-package org-roam :ensure t
+  ;:after org ; do not uncomment this, which prevents all `:bind`s
   :config
   (setq org-roam-directory (file-truename "~/Documents/org/roam"))
   (setq org-roam-node-display-template
@@ -392,7 +371,6 @@
           ("t" "todo" entry "* TODO %?"
            :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
 
-  :config
   (defun my/org-roam-dailies-goto-today nil
     (interactive)
     (org-roam-dailies-goto-today "d"))
@@ -405,15 +383,15 @@
     (org-cycle-hide-drawers 'hide))
 
   :bind
-  ([f9] . org-roam-buffer-toggle)
-  ([f11] . org-roam-node-find)
-  ([f12] . my/org-roam-dailies-goto-today)
-  ([S-f12] . my/org-roam-dailies-goto-date)
-  ("H-i" . org-roam-node-insert)
-  ("H-[" . org-roam-dailies-goto-previous-note)
-  ("H-]" . org-roam-dailies-goto-next-note)
-  ("H-`" . org-roam-dailies-capture-today)
-  ("H-@" . org-roam-capture)
+  (("<f9>" . org-roam-buffer-toggle)
+   ("<f11>" . org-roam-node-find)
+   ("<f12>" . my/org-roam-dailies-goto-today)
+   ("S-<f12>" . my/org-roam-dailies-goto-date)
+   ("H-i" . org-roam-node-insert)
+   ("H-[" . org-roam-dailies-goto-previous-note)
+   ("H-]" . org-roam-dailies-goto-next-note)
+   ("H-`" . org-roam-dailies-capture-today)
+   ("H-@" . org-roam-capture))
 
   :hook
   (after-init-hook . org-roam-mode)
@@ -421,27 +399,27 @@
   (org-roam-find-file-hook . my/hide-drawers))
 
 
-(leaf org-roam-ui :ensure t
-  :require org org-roam
+(use-package org-roam-ui :ensure t
+  :after (org org-roam)
   :config
   (setq org-roam-ui-follow nil))
 
 
-(leaf *consult-notes
-  :require org
-  :el-get  (consult-notes :type github :pkgname "safx/consult-notes"
-                          :branch "hide-backup-files")
+(use-package *consult-notes
+  :after org
+  ;:el-get  (consult-notes :type github :pkgname "safx/consult-notes"
+  ;                        :branch "hide-backup-files")
   :commands (consult-notes
              consult-notes-search-all
              consult-notes-org-roam-find-node
              consult-notes-org-roam-find-node-relation)
   :custom
-  (consult-notes-data-dirs . '(("All" ?a "~/Documents/org")
+  (consult-notes-data-dirs (("All" ?a "~/Documents/org")
                                ("Roam" ?r "~/Documents/org/roam")
                                ("Daily" ?d "~/Documents/org/roam/daily")))
 
   :bind
-  ([f10] . consult-notes)
+  ("<f10>" . consult-notes)
 
   :config
   (setq consult-notes-sources '(consult-notes--data-dirs
@@ -450,23 +428,22 @@
                                 my-other-notes--source))
   (consult-notes-org-roam-mode)) ;; Set org-roam integration
 
-
-(leaf ob-js
-  :require org
+(use-package ob-js
+  :after org
   :config
   (add-to-list 'org-babel-load-languages '(js . t))
   (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages)
   (add-to-list 'org-babel-tangle-lang-exts '("js" . "js")))
 
 
-(leaf ob-typescript :ensure t
-  :require org
+(use-package ob-typescript :ensure t
+  :after org
   :config
   (add-to-list 'org-babel-load-languages '(typescript . t))
   (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages))
 
 
-(leaf doom-themes :ensure t
+(use-package doom-themes :ensure t
   :config
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
@@ -489,16 +466,16 @@
   (set-face-background 'show-paren-match "#c0c000"))
 
 
-(leaf which-key :ensure t
+(use-package which-key :ensure t
   :hook
   (after-init-hook . which-key-mode))
 
 
-(leaf flycheck :ensure t
+(use-package flycheck :ensure t
   :hook (prog-mode-hook . flycheck-mode))
 
 
-(leaf company :ensure t
+(use-package company :ensure t
   :hook (prog-mode-hook . company-mode)
   :config
   (setq company-tooltip-limit 20)
@@ -507,104 +484,102 @@
   (setq company-echo-delay 0)
   (setq company-begin-commands '(self-insert-command))
 
-  :bind (:company-active-map
-         ("C-h" . nil))
+  :bind (:map company-active-map
+        ("C-h" . nil))
 
   :custom-face
-  (company-preview . '((t (:foreground "darkgray" :underline t))))
-  (company-preview-common . '((t (:inherit company-preview))))
-  (company-tooltip . '((t (:background "lightgray" :foreground "black"))))
-  (company-tooltip-selection . '((t (:background "steelblue" :foreground "white"))))
-  (company-tooltip-common . '((((type x)) (:inherit company-tooltip :weight bold))
+  (company-preview ((t (:foreground "darkgray" :underline t))))
+  (company-preview-common ((t (:inherit company-preview))))
+  (company-tooltip ((t (:background "lightgray" :foreground "black"))))
+  (company-tooltip-selection ((t (:background "steelblue" :foreground "white"))))
+  (company-tooltip-common ((((type x)) (:inherit company-tooltip :weight bold))
                               (t (:inherit company-tooltip))))
-  (company-scrollbar-fg . '((t (:background "gray64"))))
-  (company-scrollbar-bg . '((t (:background "white"))))
-  (company-tooltip-common-selection . '((((type x)) (:inherit company-tooltip-selection :weight bold))
+  (company-scrollbar-fg ((t (:background "gray64"))))
+  (company-scrollbar-bg ((t (:background "white"))))
+  (company-tooltip-common-selection ((((type x)) (:inherit company-tooltip-selection :weight bold))
                                         (t (:inherit company-tooltip-selection)))))
 
 
-(leaf lsp-mode :ensure t
+(use-package lsp-mode :ensure t
   :commands lsp
   :bind ("H-:" . lsp-describe-thing-at-point))
 
 
-(leaf lsp-ui :ensure t)
+(use-package lsp-ui :ensure t)
 
 
-(leaf anzu :ensure t
-  :bind (:esc-map
+(use-package anzu :ensure t
+  :bind (:map esc-map
          ("%" . anzu-query-replace)
          ("&" . query-replace-regexp)))
 
 
-(leaf beacon :ensure t
+(use-package beacon :ensure t
   :custom
-  (beacon-mode . t)
-  (beacon-blink-delay . 0.1)
-  (beacon-blink-duration . 0.1)
-  (beacon-color . "#eeee44"))
+  (beacon-mode t)
+  (beacon-blink-delay 0.1)
+  (beacon-blink-duration 0.1)
+  (beacon-color "#eeee44"))
 
 
-(leaf dired-single :ensure t)
+(use-package dired-single :ensure t)
 
 
-(leaf exec-path-from-shell :ensure t
+(use-package exec-path-from-shell :ensure t
   :if (not (eq system-type 'windows-nt))
   :config
   (let ((envs '("PATH")))
     (exec-path-from-shell-copy-envs envs)))
 
 
-(leaf git-gutter :ensure t
+(use-package git-gutter :ensure t
   :config
   (global-git-gutter-mode +1)
 
   :custom
-  (git-gutter:modified-sign . "┃")
-  (git-gutter:added-sign    . "┃")
-  (git-gutter:deleted-sign  . "┃")
+  (git-gutter:modified-sign "┃")
+  (git-gutter:added-sign    "┃")
+  (git-gutter:deleted-sign  "┃")
 
   :custom-face
-  (git-gutter:modified . '((t (:foreground "#c96cd5"))))
-  (git-gutter:added    . '((t (:foreground "#43a234"))))
-  (git-gutter:deleted  . '((t (:foreground "#e7766d")))))
+  (git-gutter:modified ((t (:foreground "#c96cd5"))))
+  (git-gutter:added    ((t (:foreground "#43a234"))))
+  (git-gutter:deleted  ((t (:foreground "#e7766d")))))
 
 
-(leaf iedit :ensure t
-  :bind
-  ("C-;" . iedit-mode)
-
-  :bind (:iedit-mode-keymap
+(use-package iedit :ensure t
+  :bind (("C-;" . iedit-mode)
+         :map iedit-mode-keymap
          ("M-p" . iedit-prev-occurrence)
          ("M-n" . iedit-next-occurrence)
          ("C-h" . backward-delete-char-untabify)))
 
 
-(leaf magit :ensure t
+(use-package magit :ensure t
   :bind ("C-#" . magit-status))
 
 
-(leaf vertico :ensure t
+(use-package vertico :ensure t
   :config
   (vertico-mode)
   (setq vertico-count 40)
   (setq vertico-cycle t)
   (define-key vertico-map (kbd "C-w") 'backward-kill-word))
 ;; It does not working correctly
-                                        ;:bind (:vertico-map
-                                        ;       ("C-w" . backward-kill-word)))
+; :bind (:vertico-map
+;       ("C-w" . backward-kill-word)))
 
-(leaf orderless :ensure t
+(use-package orderless :ensure t
   :init
   (setq completion-styles '(orderless)
         completion-category-defaults nil
         completion-category-overrides '((file (styles . (partial-completion))))))
 
 
-(leaf projectile :ensure t)
+(use-package projectile :ensure t)
 
 
-(leaf consult :ensure t
+(use-package consult :ensure t
   :init
   (setq register-preview-delay 0
         register-preview-function #'consult-register-format)
@@ -632,15 +607,15 @@
    ("M-y" . consult-yank-pop)))
 
 
-(leaf affe :ensure t)
+(use-package affe :ensure t)
 
 
-(leaf marginalia :ensure t
+(use-package marginalia :ensure t
   :config
   (marginalia-mode))
 
 
-(leaf embark :ensure t
+(use-package embark :ensure t
   :bind
   (("H-." . embark-act)         ;; pick some comfortable binding
    ("H-;" . embark-dwim))       ;; good alternative: M-.
@@ -657,7 +632,7 @@
                  (window-parameters (mode-line-format . none)))))
 
 
-(leaf embark-consult :ensure t
+(use-package embark-consult :ensure t
   :after (embark consult)
                                         ;:demand t ; only necessary if you have the hook below
   ;; if you want to have consult previews as you move around an
@@ -666,18 +641,18 @@
   (embark-collect-mode-hook . consult-preview-at-point-mode))
 
 
-(leaf volatile-highlights :ensure t
+(use-package volatile-highlights :ensure t
   :config
   (volatile-highlights-mode))
 
 
-(leaf web-mode :ensure t
+(use-package web-mode :ensure t
   :config
   (add-to-list 'auto-mode-alist '("\\.js$" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode)))
 
 
-(leaf ddskk :ensure t
+(use-package ddskk :ensure t
   :config
   (setq skk-date-ad nil)
   (setq skk-number-style nil)
@@ -693,7 +668,7 @@
   ("C-x C-j" . skk-mode))
 
 
-(leaf highlight-indent-guides :ensure t
+(use-package highlight-indent-guides :ensure t
   :config
   (setq highlight-indent-guides-method 'bitmap)
   :hook
@@ -702,36 +677,31 @@
 
 
 ;;; other modes
-(leaf rjsx-mode :ensure t)
-(leaf yaml-mode :ensure t)
-(leaf markdown-mode :ensure t)
-(leaf dockerfile-mode :ensure t)
-(leaf docker-compose-mode :ensure t)
-(leaf toml-mode :ensure t)
-(leaf typescript-mode :ensure t)
-(leaf haxe-mode :ensure t)
+(use-package rjsx-mode :ensure t)
+(use-package yaml-mode :ensure t)
+(use-package markdown-mode :ensure t)
+(use-package dockerfile-mode :ensure t)
+(use-package docker-compose-mode :ensure t)
+(use-package toml-mode :ensure t)
+(use-package typescript-mode :ensure t)
+(use-package haxe-mode :ensure t)
 
 
-(leaf rust-mode :ensure t
+(use-package rust-mode :ensure t
   ;; :custom (rust-format-on-save . t)
   :hook (rust-mode-hook . lsp))
 
 
-(leaf cargo :ensure t
+(use-package cargo :ensure t
   :hook (rust-mode-hook . cargo-minor-mode))
 
 
-(leaf flycheck-rust :ensure t
-  :require flycheck
+(use-package flycheck-rust :ensure t
+  :after flycheck
   :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
 
-(leaf docker :ensure t
+(use-package docker :ensure t
   :bind ("H-d" . docker))
-
-
-(leaf docker-tramp :ensure t :disabled t
-  :config
-  (set-variable 'docker-tramp-use-names t))
 
 ;;; init.el ends here
