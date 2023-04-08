@@ -194,8 +194,8 @@
 
 
 (use-package *server :no-require
-  :hook (emacs-startup-hook . server-start))
-
+  :init
+  (add-hook 'after-init-hook 'server-start t))
 
 (use-package *isearch :no-require
   :bind
