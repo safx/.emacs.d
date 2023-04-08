@@ -223,6 +223,9 @@
   (savehist-mode))
 
 
+(use-package *eglot :no-require)
+
+
 ;;; end built-in packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -503,14 +506,6 @@
                                         (t (:inherit company-tooltip-selection)))))
 
 
-(use-package lsp-mode :ensure t
-  :commands lsp
-  :bind ("H-:" . lsp-describe-thing-at-point))
-
-
-(use-package lsp-ui :ensure t)
-
-
 (use-package anzu :ensure t
   :bind (:map esc-map
          ("%" . anzu-query-replace)
@@ -690,18 +685,19 @@
 (use-package haxe-mode :ensure t)
 
 
-(use-package rust-mode :ensure t
-  ;; :custom (rust-format-on-save . t)
-  :hook (rust-mode-hook . lsp))
+(use-package rustic :ensure t
+  :config
+  (setq rustic-lsp-client 'eglot)
+  (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1))))
 
 
-(use-package cargo :ensure t
-  :hook (rust-mode-hook . cargo-minor-mode))
+;(use-package cargo :ensure t
+;  :hook (rust-mode-hook . cargo-minor-mode))
 
 
-(use-package flycheck-rust :ensure t
-  :after flycheck
-  :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+;(use-package flycheck-rust :ensure t
+;  :after flycheck
+;  :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
 
 (use-package docker :ensure t
