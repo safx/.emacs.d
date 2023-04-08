@@ -3,7 +3,10 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'use-package))
+  (require 'package)
+  (require 'use-package)
+  (add-to-list 'package-archives
+     '("melpa" . "https://melpa.org/packages/") t))
 
 (use-package *emacs :no-require
   :init
@@ -186,7 +189,7 @@
     (when (file-exists-p file)
       (load-file file))))
 
-;;; end no-require scripts
+;;; end other settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
