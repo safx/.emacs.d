@@ -330,15 +330,8 @@
 
 
 (use-package org-autolist :ensure t
-  :after org
   :hook
-  (org-mode-hook . org-autolist-mode))
-
-
-(use-package org-preview-html :ensure t
-  :after org
-  :config
-  (setq org-preview-html-viewer 'xwidget))
+  (org-mode . org-autolist-mode))
 
 
 (use-package org-download :ensure t
