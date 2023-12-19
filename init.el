@@ -573,7 +573,8 @@
 (use-package consult :ensure t
   :init
   (setq register-preview-delay 0
-        register-preview-function #'consult-register-format)
+        register-preview-function #'consult-register-format
+        consult-ripgrep-args "rg --glob \"*.org\" --sortr path --null --line-buffered --color=never --max-columns=1000 --path-separator / --smart-case --no-heading --with-filename --line-number --search-zip")
   (advice-add #'register-preview :override #'consult-register-window)
 
   :hook (completion-list-mode-hook . consult-preview-at-point-mode)
