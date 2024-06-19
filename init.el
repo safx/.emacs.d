@@ -266,7 +266,7 @@
   (setq org-tag-alist
         '(("meeting" . ?m)
           ("tips" . ?t)
-          ("mobile" . ?x)
+          ("memo" . ?e)
           ("blog" . ?b)
           ("misc" . ?z)
           ))
@@ -301,6 +301,7 @@
    ("H-0" . my/affe-grep-org-all)
    ("H-9" . my/affe-grep-org)
    ("H-a" . org-agenda)
+   ("<f5>" . org-babel-execute-src-block)
    (:map org-mode-map
     ("H-o" . consult-org-heading)))
 
